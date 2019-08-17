@@ -31,6 +31,8 @@ bot.on("message", async message => {
     if(message.channel.type === "dm") return;
     
     let prefix = botconfig.prefix;
+    let emote = botconfig.emote;
+    let eUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
     let messageArray = message.content.split(" ");
     let cmd = messageArray[0];
     let args = messageArray.slice(1);
@@ -45,7 +47,15 @@ bot.on("message", async message => {
     }
     //Praise = praised
     if(cmd === `${prefix}praise`){
-        return message.channel.send("You praised The Wall. I will protect you!");
+        return message.channel.send("*-You praised The Wall.-* I will protect you!");
+    }
+    //pray = pray
+    if(cmd === `${prefix}pray`){
+        return message.channel.send("*-You pray to The Wall.-* I will protect you!");
+    }
+    //rez = rez
+    if(cmd === `${prefix}rez`){
+        return message.channel.send("*-You ask The Wall to be resurect.-* *The wall cast resurection to you.*");
     }
     //botinfo
     if(cmd === `${prefix}info`){
@@ -76,6 +86,25 @@ bot.on("message", async message => {
     //report. (unused on prod)
     let commandfile = bot.commands.get(cmd.slice(prefix.length));
     if(commandfile) commandfile.run(bot,message,args);
+
+    //emotes
+
+    //hug
+    if(cmd === `${emote}hug`){
+        return message.channel.send(`${message.author} hug ${eUser}`);
+    }
+    //boop
+    if(cmd === `${emote}boop`){
+        return message.channel.send(`${message.author} hug ${eUser}`);
+    }
+    //poke
+    if(cmd === `${emote}poke`){
+        return message.channel.send(`${message.author} poke ${eUser}. Hey!`);
+    }
+    //flirt
+    if(cmd === `${emote}flirt`){
+        return message.channel.send(`${message.author} flirt with ${eUser}`);
+    }
 });
 
 bot.login(botconfig.token)
