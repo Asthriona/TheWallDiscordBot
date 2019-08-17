@@ -153,6 +153,16 @@ bot.on("message", async message => {
         console.log(`${message.author} used flirt on ${eUser}`)
         return message.channel.send(`${message.author} flirt with ${eUser}`);
     }
+    //F
+    if(cmd === `${emote}F`){
+        console.log(`${message.author.username} used F`)
+        return message.channel.send(`-The Wall pays respect with a dank ***F***  to ${eUser}`);
+    }
+    //f
+    if(cmd === `${emote}f`){
+        console.log(`${message.author.username} used F`)
+        return message.channel.send(`-The Wall pays respect with a dank ***F***  to ${eUser}`);
+    }
 });
 
 bot.login(botconfig.token)
