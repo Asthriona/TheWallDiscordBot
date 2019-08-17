@@ -22,7 +22,7 @@ fs.readdir("./commands", (err, files) => {
 })
 
 bot.on("ready", async () => {
-    console.log(`Bot is online!`);
+    console.log(`${bot.user.username} is online!`);
     bot.user.setActivity("Update...", {type: "WATCHING"});
 });
 
@@ -30,31 +30,36 @@ bot.on("message", async message => {
     if(message.author.bot) return;
     if(message.channel.type === "dm") return;
     
+    
     let prefix = botconfig.prefix;
     let emote = botconfig.emote;
-    let eUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
     let messageArray = message.content.split(" ");
     let cmd = messageArray[0];
     let args = messageArray.slice(1);
 //Commands
     //!test = Hello World
     if(cmd === `${prefix}test`){
+        console.log(`${message.author.username} used !test`)
         return message.channel.send("Hello World!");
     }
     //!ping = Pong
     if(cmd === `${prefix}ping`){
+        console.log(`${message.author.username} used !test`)
         return message.channel.send("Pong");
     }
     //Praise = praised
     if(cmd === `${prefix}praise`){
+        console.log(`${message.author.username} used !test`)
         return message.channel.send("*-You praised The Wall.-* I will protect you!");
     }
     //pray = pray
     if(cmd === `${prefix}pray`){
+        console.log(`${message.author.username} used !test`)
         return message.channel.send("*-You pray to The Wall.-* I will protect you!");
     }
     //rez = rez
     if(cmd === `${prefix}rez`){
+        console.log(`${message.author.username} used !test`)
         return message.channel.send("*-You ask The Wall to be resurect.-* *The wall cast resurection to you.*");
     }
     //botinfo
@@ -88,21 +93,26 @@ bot.on("message", async message => {
     if(commandfile) commandfile.run(bot,message,args);
 
     //emotes
-
+    let eUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+    //let lUser = message.guild.member(message.mentions.users.first() || message.guild.members.username.get(args[0]));
     //hug
     if(cmd === `${emote}hug`){
+        console.log(`${message.author.username} used hug on ${eUser}`)
         return message.channel.send(`${message.author} hug ${eUser}`);
     }
     //boop
     if(cmd === `${emote}boop`){
+        console.log(`${message.author} used boop on ${eUser}`)
         return message.channel.send(`${message.author} hug ${eUser}`);
     }
     //poke
     if(cmd === `${emote}poke`){
+        console.log(`${message.author} used poke on ${eUser}`)
         return message.channel.send(`${message.author} poke ${eUser}. Hey!`);
     }
     //flirt
     if(cmd === `${emote}flirt`){
+        console.log(`${message.author} used flirt on ${eUser}`)
         return message.channel.send(`${message.author} flirt with ${eUser}`);
     }
 });
