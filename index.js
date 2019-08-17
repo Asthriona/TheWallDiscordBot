@@ -171,7 +171,7 @@ bot.on("message", async message => {
 
     //kneel
     if(cmd === `${emote}kneel`){
-        console.log(`${message.author.username} used lol`)
+        console.log(`${message.author.username} used kneel`)
         return message.channel.send(`${message.author} Kneel befor The Wall.`);
     }
 });
