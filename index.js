@@ -23,7 +23,7 @@ fs.readdir("./commands", (err, files) => {
 
 bot.on("ready", async () => {
     console.log(`${bot.user.username} is online on ${bot.guilds.size} servers!`);
-    bot.user.setActivity("Update...", {type: "WATCHING"});
+    bot.user.setActivity("Auction House Wall", {type: "WATCHING"});
 });
 
 bot.on("message", async message => {
@@ -61,6 +61,11 @@ bot.on("message", async message => {
     if(cmd === `${prefix}rez`){
         console.log(`${message.author.username} used !test`)
         return message.channel.send("*-You ask The Wall to be resurect.-* *The wall cast resurection to you.*");
+    }
+    //help = help links
+    if(cmd === `${prefix}help`){
+        console.log(`${message.author.username} used !test`)
+        return message.channel.send("https://github.com/Asthriona/TheWallDiscordBot/wiki/Commands");
     }
     //botinfo
     if(cmd === `${prefix}info`){
