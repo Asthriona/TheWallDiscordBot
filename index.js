@@ -163,10 +163,16 @@ bot.on("message", async message => {
         console.log(`${message.author.username} used F`)
         return message.channel.send(`-The Wall pays respect with a dank ***F***  to ${eUser}`);
     }
-    //f
+    //lol
     if(cmd === `${emote}lol`){
         console.log(`${message.author.username} used lol`)
         return message.channel.send(`${message.author} laught`);
+    }
+
+    //kneel
+    if(cmd === `${emote}kneel`){
+        console.log(`${message.author.username} used lol`)
+        return message.channel.send(`${message.author} Kneel befor The Wall.`);
     }
 });
 
