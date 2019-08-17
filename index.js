@@ -165,7 +165,7 @@ bot.on("message", async message => {
     }
     //f
     if(cmd === `${emote}lol`){
-        console.log(`${message.author.username} used F`)
+        console.log(`${message.author.username} used lol`)
         return message.channel.send(`${message.author} laught`);
     }
 });
