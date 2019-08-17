@@ -163,6 +163,11 @@ bot.on("message", async message => {
         console.log(`${message.author.username} used F`)
         return message.channel.send(`-The Wall pays respect with a dank ***F***  to ${eUser}`);
     }
+    //f
+    if(cmd === `${emote}lol`){
+        console.log(`${message.author.username} used F`)
+        return message.channel.send(`${message.author} laught`);
+    }
 });
 
 bot.login(botconfig.token)
