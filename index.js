@@ -39,10 +39,11 @@ bot.on("message", async message => {
     if(cmd === `${prefix}test`){
         return message.channel.send("Hello World!");
     }
-    //!test = Hello World
+    //!ping = Pong
     if(cmd === `${prefix}ping`){
         return message.channel.send("Pong");
     }
+    //Praise = praised
     if(cmd === `${prefix}praise`){
         return message.channel.send("You praised The Wall. I will protect you!");
     }
@@ -59,7 +60,7 @@ bot.on("message", async message => {
         .setThumbnail(bicon);
         return message.channel.send(botembed)
     }
-
+    //server infos
     if(cmd === `${prefix}server`){
         let sicon = message.guild.iconURL;
         let serverembed = new discord.RichEmbed()
@@ -72,7 +73,7 @@ bot.on("message", async message => {
         .addField("Total members", message.guild.memberCount)
         return message.channel.send(serverembed);
     }
-
+    //report. (unused on prod)
     let commandfile = bot.commands.get(cmd.slice(prefix.length));
     if(commandfile) commandfile.run(bot,message,args);
 });
