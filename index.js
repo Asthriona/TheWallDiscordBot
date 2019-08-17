@@ -90,7 +90,14 @@ bot.on("message", async message => {
         .addField("Total members", message.guild.memberCount)
         return message.channel.send(serverembed);
     }
-    //report. (unused on prod)
+    if(cmd === `${prefix}modules`){
+        let icon = bot.user.displayAvatarURL;
+        let modulesembed = new discord.RichEmbed()
+        .setColor("800080")
+        .addField("Active Modules", "say, emotes, commands, clear, report")
+        return message.channel.send(modulesembed);
+    }
+    //commands handler
     let commandfile = bot.commands.get(cmd.slice(prefix.length));
     if(commandfile) commandfile.run(bot,message,args);
 
