@@ -69,9 +69,10 @@ bot.on("message", async message => {
         .setDescription("Bot Information")
         .setColor("#800080")
         .addField("Bot Name", bot.user.username)
-        .addField("Version:", "1.0.0")
+        .addField("Version:", "1.0.1")
         .addField("Developped by", "Asthriona")
         .addField("Created on", bot.user.createdAt)
+        .addField("Git:", "https://github.com/Asthriona/TheWallDiscordBot")
         .setThumbnail(bicon);
         return message.channel.send(botembed)
     }
