@@ -67,6 +67,30 @@ bot.on("message", async message => {
         console.log(`${message.author.username} used !test`)
         return message.channel.send("https://github.com/Asthriona/TheWallDiscordBot/wiki/Commands");
     }
+    //in game help
+    if(cmd === `${emote}help`){
+        let sicon = message.guild.iconURL;
+        let helpembed = new discord.RichEmbed()
+        .setDescription("Commands")
+        .setColor("#800080")
+        .setThumbnail(sicon)
+        .addField("!test", "Check if the bot has crash.")
+        .addField("!ping", "Pong.")
+        .addField("!praise", "PRAISE THE WALL!")
+        .addField("!pray", "The Wall listen your prayer.")
+        .addField("!rez", "Get resurected!")
+        .addField("!clear", "Clear message useage: !clear 10 to remove 10 last messages")
+        .addField("!say", "Make the Wall talking!")
+        .addField("!help", "Show this...")
+        .addField("!modules", "Show active modules")
+        .addField("!server", "Show server infos.")
+        .addField("!info", "Show bot infos")
+        .addField("/hug", "You hug someone! Usage: /hug @user")
+        .addField("/boop", "You boop someone! Usage: /boop @user")
+        .addField("/poke", "You poke someone! Usage: /poke @user")
+        .addField("/flirt", "Sirius & Friend keep flirting all the time. Usage: /flirt @user")
+        return message.channel.send(helpembed);
+    }
     //botinfo
     if(cmd === `${prefix}info`){
         let bicon = bot.user.displayAvatarURL;
