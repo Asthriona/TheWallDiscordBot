@@ -2,7 +2,7 @@ var botconfig = require("./botconfig.json");
 var discord = require("discord.js");
 var fs = require("fs");
 
-var bot = new discord.Client({disableEveryone: true});
+var bot = new discord.Client({disableEveryone: false});
 bot.commands = new discord.Collection();
 
 fs.readdir("./commands", (err, files) => {
@@ -103,7 +103,7 @@ bot.on("message", async message => {
     //boop
     if(cmd === `${emote}boop`){
         console.log(`${message.author} used boop on ${eUser}`)
-        return message.channel.send(`${message.author} hug ${eUser}`);
+        return message.channel.send(`${message.author} boops ${eUser} nose!`);
     }
     //poke
     if(cmd === `${emote}poke`){
