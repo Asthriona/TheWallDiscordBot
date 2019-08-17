@@ -22,7 +22,7 @@ fs.readdir("./commands", (err, files) => {
 })
 
 bot.on("ready", async () => {
-    console.log(`${bot.user.username} is online!`);
+    console.log(`${bot.user.username} is online on ${bot.guilds.size} servers!`);
     bot.user.setActivity("Update...", {type: "WATCHING"});
 });
 
@@ -73,6 +73,7 @@ bot.on("message", async message => {
         .addField("Developped by", "Asthriona")
         .addField("Created on", bot.user.createdAt)
         .addField("Git:", "https://github.com/Asthriona/TheWallDiscordBot")
+        .addField("Server running this bot:", bot.guilds.size)
         .setThumbnail(bicon);
         return message.channel.send(botembed)
     }
