@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/Asthriona/TheWallDiscordBot#readme",
   "dependencies": {
-    "discord.js": "^11.5.1",
-    "ms": "^2.1.2"
+    "discord.js": "^11.5.1"
   }
 }
