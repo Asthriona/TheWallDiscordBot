@@ -1,6 +1,13 @@
 var botconfig = require("./botconfig.json");
 var discord = require("discord.js");
 var fs = require("fs");
+var http = require('http');
+
+var connect = require('connect');
+var serveStatic = require('serve-static');
+connect().use(serveStatic(__dirname)).listen(8080, function(){
+    console.log('Server running on 8080...');
+});
 
 var bot = new discord.Client({disableEveryone: false});
 bot.commands = new discord.Collection();
@@ -173,6 +180,11 @@ bot.on("message", async message => {
     if(cmd === `${emote}kneel`){
         console.log(`${message.author.username} used kneel`)
         return message.channel.send(`${message.author} Kneel befor The Wall.`);
+    }
+    //rez
+    if(cmd === `${emote}rez`){
+        console.log(`${message.author.username} used rez`)
+        return message.channel.send(`${message.author} ask The Wall to be resurect.-* *The wall cast resurection to ${eUser}`);
     }
 });
 
