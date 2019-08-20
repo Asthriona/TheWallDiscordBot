@@ -3,6 +3,7 @@ var discord = require("discord.js");
 var fs = require("fs");
 var util = require('util');
 var http = require('http');
+var logTimestamp = require("log-timestamp")
 
 //web server here soon
 
