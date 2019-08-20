@@ -100,10 +100,17 @@ bot.on("message", async message => {
         .addField("!modules", "Show active modules")
         .addField("!server", "Show server infos.")
         .addField("!info", "Show bot infos")
+        .addField("!backhand","Do a backhand to surprise The Wall!")
         .addField("/hug", "You hug someone! Usage: /hug @user")
         .addField("/boop", "You boop someone! Usage: /boop @user")
         .addField("/poke", "You poke someone! Usage: /poke @user")
         .addField("/flirt", "Sirius & Friend keep flirting all the time. Usage: /flirt @user")
+        .addField("/speed", "2 f4st 4 u!")
+        .addField("/violin", "The Wall plays the world's smallest violin")
+        .addField("/rez", "ask The Wall to be resurect.")
+        .addField("/kneel", "kneel befor your lord!")
+        .addField("/lol", "You so funny! :')")
+        .addField("/f", "a good old danky F to pay respect.")
         return message.channel.send(helpembed);
     }
     //botinfo
@@ -192,9 +199,9 @@ bot.on("message", async message => {
     //rez
     if(cmd === `${emote}rez`){
         console.log(`${message.author.username} used rez`)
-        return message.channel.send(`${message.author} ask The Wall to be resurect.-* *The wall cast resurection to ${eUser}`);
+        return message.channel.send(`${message.author} *ask The Wall to be resurect.-* *The wall cast resurection to ${eUser}`);
     }
-    //rez
+    //violin
     if(cmd === `${emote}violin`){
         console.log(`${message.author.username} used violin`)
         return message.channel.send(`The Wall plays the world's smallest violin for ${message.author}`);
