@@ -214,6 +214,9 @@ bot.on("message", async message => {
         console.log(`${message.author.username} used speed on ${message.guild.name}`)
         return message.channel.send("***KECHOW!!!!***");
     }
+    if(cmd === `${emote}gz`){
+        console.log(`${message.author.username} used gz on ${message.guild.name}`)
+        return message.channel.send("GZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ!");
+    }
 });
-
 bot.login(botconfig.token)
