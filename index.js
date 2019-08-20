@@ -194,6 +194,11 @@ bot.on("message", async message => {
         console.log(`${message.author.username} used rez`)
         return message.channel.send(`${message.author} ask The Wall to be resurect.-* *The wall cast resurection to ${eUser}`);
     }
+    //rez
+    if(cmd === `${emote}violin`){
+        console.log(`${message.author.username} used violin`)
+        return message.channel.send(`The Wall plays the world's smallest violin for ${message.author}`);
+    }
     // delete later
     if(cmd === `${prefix}backhand`){
         return message.channel.send("Pong!");
