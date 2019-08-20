@@ -1,13 +1,19 @@
 var botconfig = require("./botconfig.json");
 var discord = require("discord.js");
 var fs = require("fs");
+var util = require('util');
 var http = require('http');
 
-var connect = require('connect');
-var serveStatic = require('serve-static');
-connect().use(serveStatic(__dirname)).listen(8080, function(){
-    console.log('Server running on 8080...');
-});
+//web server here soon
+
+//Logging
+var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
+var log_stdout = process.stdout;
+
+console.log = function(d) { //
+  log_file.write(util.format(d) + '\n');
+  log_stdout.write(util.format(d) + '\n');
+};
 
 var bot = new discord.Client({disableEveryone: false});
 bot.commands = new discord.Collection();
@@ -31,6 +37,7 @@ fs.readdir("./commands", (err, files) => {
 bot.on("ready", async () => {
     console.log(`${bot.user.username} is online on ${bot.guilds.size} servers!`);
     bot.user.setActivity("Auction House Wall", {type: "WATCHING"});
+    //bot.user.setActivity("Updating...", {type: "WATCHING"});
 });
 
 bot.on("message", async message => {
