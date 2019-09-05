@@ -77,6 +77,11 @@ bot.on("message", async message => {
         console.log(`${message.author.username} used !rez on ${message.guild.name}`)
         return message.channel.send("*-You ask The Wall to be resurect.-* *The wall cast resurection to you.*");
     }
+    //!rez = rez
+    if(cmd === `${emote}rez`){
+        console.log(`${message.author.username} used !rez on ${message.guild.name}`)
+        return message.channel.send("*-You ask The Wall to resurect  ${eUser}.-* *The wall cast resurection on  ${eUser}.*");
+    }
     //help = help links
     if(cmd === `${prefix}help`){
         console.log(`${message.author.username} used !help on ${message.guild.name}`)
