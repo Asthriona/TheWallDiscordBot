@@ -35,10 +35,21 @@ fs.readdir("./commands", (err, files) => {
     })
 })
 
-bot.on("ready", async () => {
-    console.log(`${bot.user.username} is online on ${bot.guilds.size} servers!`);
-    bot.user.setActivity("Auction House Wall", {type: "WATCHING"});
-    //bot.user.setActivity("Updating...", {type: "WATCHING"});
+//bot.on("ready", async () => {
+//    console.log(`${bot.user.username} is online on ${bot.guilds.size} servers!`);
+//    bot.user.setActivity("Auction House Wall", {type: "WATCHING"});
+//    //bot.user.setActivity("Updating...", {type: "WATCHING"});
+//});
+
+bot.on('ready', () => {
+    bot.user.setStatus('')
+    bot.user.setPresence({
+        game: {
+            name: 'Auction House Wall',
+            type: "WATCHING",
+            url: "https://www.asthriona.com/"
+        }
+    });
 });
 
 bot.on("message", async message => {
@@ -76,11 +87,6 @@ bot.on("message", async message => {
     if(cmd === `${prefix}rez`){
         console.log(`${message.author.username} used !rez on ${message.guild.name}`)
         return message.channel.send("*-You ask The Wall to be resurect.-* *The wall cast resurection to you.*");
-    }
-    //!rez = rez
-    if(cmd === `${emote}rez`){
-        console.log(`${message.author.username} used !rez on ${message.guild.name}`)
-        return message.channel.send(`*-You ask The Wall to resurect  ${eUser}.-* *The wall cast resurection on  ${eUser}.*`);
     }
     //help = help links
     if(cmd === `${prefix}help`){
@@ -222,6 +228,11 @@ bot.on("message", async message => {
     if(cmd === `${emote}gz`){
         console.log(`${message.author.username} used gz on ${message.guild.name}`)
         return message.channel.send("GZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ!");
+    }
+    //!rez = rez
+    if(cmd === `${emote}rez`){
+        console.log(`${message.author.username} used !rez on ${message.guild.name}`)
+        return message.channel.send(`*-You ask The Wall to resurect  ${eUser}.-* * The wall cast resurection on  ${eUser}.*`);
     }
 });
 bot.login(botconfig.token)
