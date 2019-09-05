@@ -80,7 +80,7 @@ bot.on("message", async message => {
     //!rez = rez
     if(cmd === `${emote}rez`){
         console.log(`${message.author.username} used !rez on ${message.guild.name}`)
-        return message.channel.send("*-You ask The Wall to resurect  ${eUser}.-* *The wall cast resurection on  ${eUser}.*");
+        return message.channel.send(`*-You ask The Wall to resurect  ${eUser}.-* *The wall cast resurection on  ${eUser}.*`);
     }
     //help = help links
     if(cmd === `${prefix}help`){
