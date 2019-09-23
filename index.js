@@ -3,7 +3,8 @@ var discord = require("discord.js");
 var fs = require("fs");
 var util = require('util');
 var http = require('http');
-var logTimestamp = require("log-timestamp")
+var logTimestamp = require("log-timestamp");
+var winston = require('winston');
 
 //web server here soon
 
@@ -15,7 +16,32 @@ console.log = function(d) { //
   log_file.write(util.format(d) + '\n');
   log_stdout.write(util.format(d) + '\n');
 };
+// better Logging //
+const logger = winston.createLogger({
+    level: 'debug',
+    format: winston.format.json(),
+    defaultMeta: { service: 'user-service' },
+    transports: [
+      //
+      // - Write to all logs with level `info` and below to `combined.log` 
+      // - Write all logs error (and below) to `error.log`.
+      //
+      new winston.transports.File({ filename: 'error.log', level: 'error' }),
+      new winston.transports.File({ filename: 'combined.log' })
+    ]
+  });
+   
+  //
+  // If we're not in production then log to the `console` with the format:
+  // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+  // 
+  if (process.env.NODE_ENV !== 'production') {
+    logger.add(new winston.transports.Console({
+      format: winston.format.simple()
+    }));
+  }
 
+// end better logging//
 var bot = new discord.Client({disableEveryone: false});
 bot.commands = new discord.Collection();
 
@@ -62,7 +88,11 @@ bot.on("message", async message => {
     let messageArray = message.content.split(" ");
     let cmd = messageArray[0];
     let args = messageArray.slice(1);
-//Commands
+    //commands handler
+    let commandfile = bot.commands.get(cmd.slice(prefix.length));
+    if(commandfile) commandfile.run(bot,message,args);
+
+    //Commands
     //!test = Hello World
     if(cmd === `${prefix}test`){
         console.log(`${message.author.username} used !test on ${message.guild.name}`)
@@ -159,9 +189,8 @@ bot.on("message", async message => {
         .addField("Active Modules", "say, emotes, commands, clear, report")
         return message.channel.send(modulesembed);
     }
-    //commands handler
-    let commandfile = bot.commands.get(cmd.slice(prefix.length));
-    if(commandfile) commandfile.run(bot,message,args);
+
+
 
     //emotes
     let eUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
