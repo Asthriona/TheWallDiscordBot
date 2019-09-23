@@ -8,6 +8,7 @@ var winston = require('winston');
 var http = require('http');
 var fs = require('fs');
 var index = fs.readFileSync('./monit.html');
+var pjson = require('./package.json');
 
 /*Logging
 var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
@@ -31,7 +32,7 @@ logger.info("Logging system is running...")
 http.createServer(function(req, res) {
     res.write(index);
     res.end();
-}).listen(3000);
+}).listen(1002);
 logger.info("Web Server started... Monitoring is now Working.");
 
 var bot = new discord.Client({disableEveryone: false});
@@ -68,6 +69,18 @@ bot.on('ready', () => {
             url: "https://www.asthriona.com/"
         }
     });
+    var channel = bot.channels.get('602721796458020864');
+    var channel2 = bot.channels.get('612216767128928256');
+    let bicon = bot.user.displayAvatarURL;
+    let versionembed = new discord.RichEmbed()
+    .setColor("#800080")
+    .setAuthor('Bot updated!', 'https://cdn.discordapp.com/emojis/515665388495962112.png', 'https://github.com/Asthriona')
+    .addField("Bot Status:", "Ready!")
+    .addField("Version:", pjson.version)
+    .setFooter(`The Wall Discord bot`, `${bicon}`, 'https://TheWall.ovh')
+    .setThumbnail(bicon);
+    return channel.sendMessage(versionembed), channel2.sendMessage(versionembed);
+    return 
 });
 logger.info(`Discord presence set to Auction House Wall, with status type to: Watching`);
 bot.on("message", async message => {
