@@ -5,64 +5,56 @@ var util = require('util');
 var http = require('http');
 var logTimestamp = require("log-timestamp");
 var winston = require('winston');
+var http = require('http');
+var fs = require('fs');
+var index = fs.readFileSync('./monit.html');
 
-//web server here soon
-
-//Logging
+/*Logging
 var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
 var log_stdout = process.stdout;
 
-console.log = function(d) { //
+logger.info = function(d) { //
   log_file.write(util.format(d) + '\n');
   log_stdout.write(util.format(d) + '\n');
-};
+};*/
 // better Logging //
 const logger = winston.createLogger({
-    level: 'debug',
-    format: winston.format.json(),
-    defaultMeta: { service: 'user-service' },
     transports: [
-      //
-      // - Write to all logs with level `info` and below to `combined.log` 
-      // - Write all logs error (and below) to `error.log`.
-      //
-      new winston.transports.File({ filename: 'error.log', level: 'error' }),
-      new winston.transports.File({ filename: 'combined.log' })
+        new winston.transports.Console(),
+        new winston.transports.File({ filename: 'debug.log'})
+        
     ]
-  });
-   
-  //
-  // If we're not in production then log to the `console` with the format:
-  // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
-  // 
-  if (process.env.NODE_ENV !== 'production') {
-    logger.add(new winston.transports.Console({
-      format: winston.format.simple()
-    }));
-  }
-
+});
+logger.info("Logging system is running...")
 // end better logging//
+//web server for monitoring
+http.createServer(function(req, res) {
+    res.write(index);
+    res.end();
+}).listen(3000);
+logger.info("Web Server started... Monitoring is now Working.");
+
 var bot = new discord.Client({disableEveryone: false});
 bot.commands = new discord.Collection();
 
 fs.readdir("./commands", (err, files) => {
-    if(err) console.log(err);
+    if(err) logger.debug(err);
 
     let jsfile = files.filter(f => f.split(".").pop() === "js")
     if(jsfile.length <= 0){
-        console.log("Couldn't find commands.");
+        logger.info("Couldn't find commands.");
         return;
     }
-    console.log("Loading files...");
+    logger.info("Loading files...");
     jsfile.forEach((f, i) =>{
         let props = require(`./commands/${f}`);
-        console.log(`${f} loaded!`);
+        logger.info(`${f} loaded!`);
         bot.commands.set(props.help.name, props);
     })
 })
 
 //bot.on("ready", async () => {
-//    console.log(`${bot.user.username} is online on ${bot.guilds.size} servers!`);
+//    logger.info(`${bot.user.username} is online on ${bot.guilds.size} servers!`);
 //    bot.user.setActivity("Auction House Wall", {type: "WATCHING"});
 //    //bot.user.setActivity("Updating...", {type: "WATCHING"});
 //});
@@ -77,7 +69,7 @@ bot.on('ready', () => {
         }
     });
 });
-
+logger.info(`Discord presence set to Auction House Wall, with status type to: Watching`);
 bot.on("message", async message => {
     if(message.author.bot) return;
     if(message.channel.type === "dm") return;
@@ -95,32 +87,32 @@ bot.on("message", async message => {
     //Commands
     //!test = Hello World
     if(cmd === `${prefix}test`){
-        console.log(`${message.author.username} used !test on ${message.guild.name}`)
+        logger.info(`${message.author.username} used !test on ${message.guild.name}`)
         return message.channel.send("Hello World!");
     }
     //!ping = Pong
     if(cmd === `${prefix}ping`){
-        console.log(`${message.author.username} used !ping on ${message.guild.name}`)
+        logger.info(`${message.author.username} used !ping on ${message.guild.name}`)
         return message.channel.send("Pong");
     }
     //Praise = praised
     if(cmd === `${prefix}praise`){
-        console.log(`${message.author.username} used !praise on ${message.guild.name}`)
+        logger.info(`${message.author.username} used !praise on ${message.guild.name}`)
         return message.channel.send("*-You praised The Wall.-* I will protect you!");
     }
     //pray = pray
     if(cmd === `${prefix}pray`){
-        console.log(`${message.author.username} used !pray on ${message.guild.name}`)
+        logger.info(`${message.author.username} used !pray on ${message.guild.name}`)
         return message.channel.send("*-You pray to The Wall.-* I will protect you!");
     }
     //rez = rez
     if(cmd === `${prefix}rez`){
-        console.log(`${message.author.username} used !rez on ${message.guild.name}`)
+        logger.info(`${message.author.username} used !rez on ${message.guild.name}`)
         return message.channel.send("*-You ask The Wall to be resurect.-* *The wall cast resurection to you.*");
     }
     //help = help links
     if(cmd === `${prefix}help`){
-        console.log(`${message.author.username} used !help on ${message.guild.name}`)
+        logger.info(`${message.author.username} used !help on ${message.guild.name}`)
         return message.channel.send("https://github.com/Asthriona/TheWallDiscordBot/wiki/Commands");
     }
     //in game help
@@ -197,53 +189,53 @@ bot.on("message", async message => {
     //let lUser = message.guild.member(message.mentions.users.first() || message.guild.members.username.get(args[0]));
     //hug
     if(cmd === `${emote}hug`){
-        console.log(`${message.author.username} used hug on ${eUser} on ${message.guild.name}`)
+        logger.info(`${message.author.username} used hug on ${eUser} on ${message.guild.name}`)
         return message.channel.send(`${message.author} hug ${eUser}`);
     }
     //boop
     if(cmd === `${emote}boop`){
-        console.log(`${message.author} used boop on ${eUser} on ${message.guild.name}`)
+        logger.info(`${message.author} used boop on ${eUser} on ${message.guild.name}`)
         return message.channel.send(`${message.author} boops ${eUser} nose!`);
     }
     //poke
     if(cmd === `${emote}poke`){
-        console.log(`${message.author} used poke on ${eUser} on ${message.guild.name}`)
+        logger.info(`${message.author} used poke on ${eUser} on ${message.guild.name}`)
         return message.channel.send(`${message.author} poke ${eUser}. Hey!`);
     }
     //flirt
     if(cmd === `${emote}flirt`){
-        console.log(`${message.author} used flirt on ${eUser} on ${message.guild.name}`)
+        logger.info(`${message.author} used flirt on ${eUser} on ${message.guild.name}`)
         return message.channel.send(`${message.author} flirt with ${eUser}`);
     }
     //F
     if(cmd === `${emote}F`){
-        console.log(`${message.author.username} used F on ${message.guild.name}`)
+        logger.info(`${message.author.username} used F on ${message.guild.name}`)
         return message.channel.send(`-The Wall pays respect with a dank ***F***  to ${eUser}`);
     }
     //f
     if(cmd === `${emote}f`){
-        console.log(`${message.author.username} used F on ${message.guild.name}`)
+        logger.info(`${message.author.username} used F on ${message.guild.name}`)
         return message.channel.send(`-The Wall pays respect with a dank ***F***  to ${eUser}`);
     }
     //lol
     if(cmd === `${emote}lol`){
-        console.log(`${message.author.username} used lol on ${message.guild.name}`)
+        logger.info(`${message.author.username} used lol on ${message.guild.name}`)
         return message.channel.send(`${message.author} laught`);
     }
 
     //kneel
     if(cmd === `${emote}kneel`){
-        console.log(`${message.author.username} used kneel on ${message.guild.name}`)
+        logger.info(`${message.author.username} used kneel on ${message.guild.name}`)
         return message.channel.send(`${message.author} Kneel befor The Wall.`);
     }
     //rez
     if(cmd === `${emote}rez`){
-        console.log(`${message.author.username} used rez on ${message.guild.name}`)
+        logger.info(`${message.author.username} used rez on ${message.guild.name}`)
         return message.channel.send(`${message.author} *ask The Wall to be resurect.-* *The wall cast resurection to ${eUser}`);
     }
     //violin
     if(cmd === `${emote}violin`){
-        console.log(`${message.author.username} used violin on ${message.guild.name}`)
+        logger.info(`${message.author.username} used violin on ${message.guild.name}`)
         return message.channel.send(`The Wall plays the world's smallest violin for ${message.author}`);
     }
     // delete later
@@ -251,16 +243,16 @@ bot.on("message", async message => {
         return message.channel.send("Pong!");
     }
     if(cmd === `${emote}speed`){
-        console.log(`${message.author.username} used speed on ${message.guild.name}`)
+        logger.info(`${message.author.username} used speed on ${message.guild.name}`)
         return message.channel.send("***KECHOW!!!!***");
     }
     if(cmd === `${emote}gz`){
-        console.log(`${message.author.username} used gz on ${message.guild.name}`)
+        logger.info(`${message.author.username} used gz on ${message.guild.name}`)
         return message.channel.send("GZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ!");
     }
     //!rez = rez
     if(cmd === `${emote}rez`){
-        console.log(`${message.author.username} used !rez on ${message.guild.name}`)
+        logger.info(`${message.author.username} used !rez on ${message.guild.name}`)
         return message.channel.send(`*-You ask The Wall to resurect  ${eUser}.-* * The wall cast resurection on  ${eUser}.*`);
     }
 });
