@@ -2,7 +2,7 @@ var discord = require("discord.js");
 var superagent = require("superagent");
 
 module.exports.run = async (bot, message, args) => {
-    //wink
+    //Uptime
     let totalSeconds = (bot.uptime / 1000);
     let days = Math.floor(totalSeconds / 86400);
     let hours = Math.floor(totalSeconds / 3600);
