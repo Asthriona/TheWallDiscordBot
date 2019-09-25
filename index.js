@@ -69,8 +69,8 @@ bot.on('ready', () => {
             url: "https://www.asthriona.com/"
         }
     });
-    //var channel = bot.channels.get('602721796458020864');
-    //var channel2 = bot.channels.get('612216767128928256');
+    //var channelprod = bot.channels.get(botconfig.channelprod);
+    var channeldev = bot.channels.get(botconfig.channeldev);
     let bicon = bot.user.displayAvatarURL;
     let versionembed = new discord.RichEmbed()
     .setColor("#800080")
@@ -79,7 +79,7 @@ bot.on('ready', () => {
     .addField("Version:", pjson.version)
     .setFooter(`The Wall Discord bot`, `${bicon}`, 'https://TheWall.ovh')
     .setThumbnail(bicon);
-    //return channel.sendMessage(versionembed), channel2.sendMessage(versionembed);
+    return /*channel.sendMessage(versionembed),*/ channeldev.sendMessage(versionembed);
 });
 logger.info(`Discord presence set to Auction House Wall, with status type to: Watching`);
 bot.on("message", async message => {
