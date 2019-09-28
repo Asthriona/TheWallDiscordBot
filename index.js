@@ -9,6 +9,7 @@ var http = require('http');
 var fs = require('fs');
 var index = fs.readFileSync('./monit.html');
 var pjson = require('./package.json');
+require('dotenv').config();
 
 /*Logging
 var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
@@ -34,7 +35,7 @@ http.createServer(function(req, res) {
     res.end();
 }).listen(1002);
 logger.info("Web Server started... Monitoring is now Working.");
-
+logger.info(process.env.NODE_ENV) // root
 var bot = new discord.Client({disableEveryone: false});
 bot.commands = new discord.Collection();
 
@@ -59,28 +60,50 @@ fs.readdir("./commands", (err, files) => {
 //    bot.user.setActivity("Auction House Wall", {type: "WATCHING"});
 //    //bot.user.setActivity("Updating...", {type: "WATCHING"});
 //});
-
-bot.on('ready', () => {
-    bot.user.setStatus('')
-    bot.user.setPresence({
-        game: {
-            name: 'Auction House Wall',
-            type: "WATCHING",
-            url: "https://www.asthriona.com/"
-        }
+if (process.env.NODE_ENV === 'production') {
+    bot.on('ready', () => {
+        bot.user.setStatus('')
+        bot.user.setPresence({
+            game: {
+                name: 'Auction House Wall',
+                type: "WATCHING",
+                url: "https://www.asthriona.com/"
+            }
+        });
+        var channelprod = bot.channels.get(botconfig.channelprod);
+        var channeldev = bot.channels.get(botconfig.channeldev);
+        let bicon = bot.user.displayAvatarURL;
+        let versionembed = new discord.RichEmbed()
+        .setColor("#800080")
+        .setAuthor('Bot Rrestarted!', 'https://cdn.discordapp.com/emojis/515665388495962112.png', 'https://github.com/Asthriona')
+        .addField("Bot Status:", "Ready!")
+        .addField("Version:", pjson.version)
+        .setFooter(`The Wall Discord bot`, `${bicon}`, 'https://TheWall.ovh')
+        .setThumbnail(bicon);
+        return channelprod.sendMessage(versionembed), channeldev.sendMessage(versionembed);
     });
-    var channelprod = bot.channels.get(botconfig.channelprod);
-    var channeldev = bot.channels.get(botconfig.channeldev);
-    let bicon = bot.user.displayAvatarURL;
-    let versionembed = new discord.RichEmbed()
-    .setColor("#800080")
-    .setAuthor('Bot Rrestarted!', 'https://cdn.discordapp.com/emojis/515665388495962112.png', 'https://github.com/Asthriona')
-    .addField("Bot Status:", "Ready!")
-    .addField("Version:", pjson.version)
-    .setFooter(`The Wall Discord bot`, `${bicon}`, 'https://TheWall.ovh')
-    .setThumbnail(bicon);
-    return channelprod.sendMessage(versionembed), channeldev.sendMessage(versionembed);
-});
+} else {
+    bot.on('ready', () => {
+        bot.user.setStatus('')
+        bot.user.setPresence({
+            game: {
+                name: 'Developement mode',
+                type: "PLAYING",
+                url: "https://www.asthriona.com/"
+            }
+        });
+        var channeldev = bot.channels.get(botconfig.channeldev);
+        let bicon = bot.user.displayAvatarURL;
+        let versionembed = new discord.RichEmbed()
+        .setColor("#800080")
+        .setAuthor('Bot Rrestarted!', 'https://cdn.discordapp.com/emojis/515665388495962112.png', 'https://github.com/Asthriona')
+        .addField("Bot Status:", "Ready!")
+        .addField("Version:", pjson.version)
+        .setFooter(`The Wall Discord bot`, `${bicon}`, 'https://TheWall.ovh')
+        .setThumbnail(bicon);
+        return channeldev.sendMessage(versionembed);
+    });
+}
 logger.info(`Discord presence set to Auction House Wall, with status type to: Watching`);
 bot.on("message", async message => {
     if(message.author.bot) return;
@@ -268,7 +291,7 @@ bot.on("message", async message => {
         return message.channel.send(`*-You ask The Wall to resurect  ${eUser}.-* * The wall cast resurection on  ${eUser}.*`);
     }
 });
-bot.login(botconfig.token)
+bot.login(botconfig.token) 
 //Crash handler
 process.on('EADDRINUSE', (error)  => {
    
