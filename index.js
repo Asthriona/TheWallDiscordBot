@@ -79,7 +79,7 @@ bot.on('ready', () => {
     .addField("Version:", pjson.version)
     .setFooter(`The Wall Discord bot`, `${bicon}`, 'https://TheWall.ovh')
     .setThumbnail(bicon);
-    return /*channel.sendMessage(versionembed),*/ channeldev.sendMessage(versionembed);
+    return channel.sendMessage(versionembed), channeldev.sendMessage(versionembed);
 });
 logger.info(`Discord presence set to Auction House Wall, with status type to: Watching`);
 bot.on("message", async message => {
