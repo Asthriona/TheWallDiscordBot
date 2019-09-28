@@ -69,7 +69,7 @@ bot.on('ready', () => {
             url: "https://www.asthriona.com/"
         }
     });
-    //var channelprod = bot.channels.get(botconfig.channelprod);
+    var channelprod = bot.channels.get(botconfig.channelprod);
     var channeldev = bot.channels.get(botconfig.channeldev);
     let bicon = bot.user.displayAvatarURL;
     let versionembed = new discord.RichEmbed()
@@ -79,7 +79,7 @@ bot.on('ready', () => {
     .addField("Version:", pjson.version)
     .setFooter(`The Wall Discord bot`, `${bicon}`, 'https://TheWall.ovh')
     .setThumbnail(bicon);
-    return channel.sendMessage(versionembed), channeldev.sendMessage(versionembed);
+    return channelprod.sendMessage(versionembed), channeldev.sendMessage(versionembed);
 });
 logger.info(`Discord presence set to Auction House Wall, with status type to: Watching`);
 bot.on("message", async message => {
@@ -269,3 +269,11 @@ bot.on("message", async message => {
     }
 });
 bot.login(botconfig.token)
+//Crash handler
+process.on('EADDRINUSE', (error)  => {
+   
+    console.log('Oh my god, something terrible happend: ',  error);
+
+    process.exit(1); // exit application 
+
+})
