@@ -88,8 +88,8 @@ if (process.env.NODE_ENV === 'production') {
         bot.user.setPresence({
             game: {
                 name: 'Developement mode',
-                type: "PLAYING",
-                url: "https://www.asthriona.com/"
+                type: "Streaming",
+                url: "https://www.twitch.tv/Asthriona"
             }
         });
         var channeldev = bot.channels.get(botconfig.channeldev);
