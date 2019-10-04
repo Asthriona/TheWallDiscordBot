@@ -291,7 +291,12 @@ bot.on("message", async message => {
         return message.channel.send(`*-You ask The Wall to resurect  ${eUser}.-* * The wall cast resurection on  ${eUser}.*`);
     }
 });
-bot.login(botconfig.token) 
+if (process.env.NODE_ENV === 'production'){
+    bot.login(botconfig.token) 
+}else{
+    bot.login(botconfig.devtokken)
+};
+
 //Crash handler
 process.on('EADDRINUSE', (error)  => {
    
