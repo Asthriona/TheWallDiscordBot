@@ -9,6 +9,7 @@ var http = require('http');
 var fs = require('fs');
 var index = fs.readFileSync('./monit.html');
 var pjson = require('./package.json');
+
 require('dotenv').config();
 
 /*Logging
@@ -124,6 +125,10 @@ bot.on("message", async message => {
     if(cmd === `${prefix}test`){
         logger.info(`${message.author.username} used !test on ${message.guild.name}`)
         return message.channel.send("Hello World!");
+    }
+    //spam test
+    if (cmd === `${prefix}hello`){
+        return message.channel.send("!hello");
     }
     //!ping = Pong
     if(cmd === `${prefix}ping`){
