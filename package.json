@@ -1,6 +1,7 @@
 {
   "name": "thewalldiscordbot",
-  "version": "1.1.9",
+  "version": "1.2",
+  "codeName": "[MOAR PAT PAT!]",
   "description": "Just a lil bot for The Wall",
   "main": "index.js",
   "scripts": {
