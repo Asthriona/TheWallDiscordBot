@@ -65,6 +65,7 @@ if (process.env.NODE_ENV === 'production') {
         .setAuthor('Bot Rrestarted!', 'https://cdn.discordapp.com/emojis/515665388495962112.png', 'https://github.com/Asthriona')
         .addField("Bot Status:", "Ready!")
         .addField("Version:", pjson.version)
+        .addField("Version name: ", pjson.codeName)
         .setFooter(`The Wall Discord bot`, `${bicon}`, 'https://TheWall.ovh')
         .setThumbnail(bicon);
         return channelprod.sendMessage(versionembed), channeldev.sendMessage(versionembed);
@@ -86,6 +87,7 @@ if (process.env.NODE_ENV === 'production') {
         .setAuthor('Bot Rrestarted!', 'https://cdn.discordapp.com/emojis/515665388495962112.png', 'https://github.com/Asthriona')
         .addField("Bot Status:", "Ready!")
         .addField("Version:", pjson.version)
+        .addField("Version name: ", pjson.codeName)
         .setFooter(`The Wall Discord bot`, `${bicon}`, 'https://TheWall.ovh')
         .setThumbnail(bicon);
         return channeldev.sendMessage(versionembed);
@@ -275,6 +277,27 @@ bot.on("message", async message => {
         logger.info(`${message.author.username} used !rez on ${message.guild.name}`)
         return message.channel.send(`*-You ask The Wall to resurect  ${eUser}.-* * The wall cast resurection on  ${eUser}.*`);
     }
+
+    if(cmd === `${prefix}ah`){
+            bot.user.setStatus('')
+            bot.user.setPresence({
+                game: {
+                    name: 'Auction House Wall',
+                    type: "WATCHING",
+                    url: "https://www.asthriona.com/"
+                }
+            });
+    }
+    if(cmd === `${prefix}wow`){
+        bot.user.setStatus('')
+        bot.user.setPresence({
+            game: {
+                name: 'World Of Warcraft',
+                type: "PLAYING",
+                url: "https://www.asthriona.com/"
+            }
+        });
+}
 });
 if (process.env.NODE_ENV === 'production'){
     bot.login(botconfig.token) 
