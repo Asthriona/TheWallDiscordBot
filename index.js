@@ -3,7 +3,6 @@ var discord = require("discord.js");
 var fs = require("fs");
 var util = require('util');
 var http = require('http');
-//var logTimestamp = require("log-timestamp");
 var winston = require('winston');
 var http = require('http');
 var fs = require('fs');
@@ -12,15 +11,7 @@ var pjson = require('./package.json');
 
 require('dotenv').config();
 
-/*Logging
-var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
-var log_stdout = process.stdout;
-
-logger.info = function(d) { //
-  log_file.write(util.format(d) + '\n');
-  log_stdout.write(util.format(d) + '\n');
-};*/
-// better Logging //
+// Logging //
 const logger = winston.createLogger({
     transports: [
         new winston.transports.Console(),
@@ -29,7 +20,7 @@ const logger = winston.createLogger({
     ]
 });
 logger.info("Logging system is running...")
-// end better logging//
+
 //web server for monitoring
 http.createServer(function(req, res) {
     res.write(index);
@@ -56,11 +47,6 @@ fs.readdir("./commands", (err, files) => {
     })
 })
 
-//bot.on("ready", async () => {
-//    logger.info(`${bot.user.username} is online on ${bot.guilds.size} servers!`);
-//    bot.user.setActivity("Auction House Wall", {type: "WATCHING"});
-//    //bot.user.setActivity("Updating...", {type: "WATCHING"});
-//});
 if (process.env.NODE_ENV === 'production') {
     bot.on('ready', () => {
         bot.user.setStatus('')
@@ -150,13 +136,8 @@ bot.on("message", async message => {
         logger.info(`${message.author.username} used !rez on ${message.guild.name}`)
         return message.channel.send("*-You ask The Wall to be resurect.-* *The wall cast resurection to you.*");
     }
-    //help = help links
-    if(cmd === `${prefix}help`){
-        logger.info(`${message.author.username} used !help on ${message.guild.name}`)
-        return message.channel.send("https://github.com/Asthriona/TheWallDiscordBot/wiki/Commands");
-    }
     //in game help
-    if(cmd === `${emote}help`){
+    if(cmd === `${prefix}help`){
         let sicon = message.guild.iconURL;
         let helpembed = new discord.RichEmbed()
         .setDescription("Commands")
@@ -226,7 +207,6 @@ bot.on("message", async message => {
 
     //emotes
     let eUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
-    //let lUser = message.guild.member(message.mentions.users.first() || message.guild.members.username.get(args[0]));
     //hug
     if(cmd === `${emote}hug`){
         logger.info(`${message.author.username} used hug on ${eUser} on ${message.guild.name}`)
@@ -301,12 +281,3 @@ if (process.env.NODE_ENV === 'production'){
 }else{
     bot.login(botconfig.devtokken)
 };
-
-//Crash handler
-process.on('EADDRINUSE', (error)  => {
-   
-    console.log('Oh my god, something terrible happend: ',  error);
-
-    process.exit(1); // exit application 
-
-})
