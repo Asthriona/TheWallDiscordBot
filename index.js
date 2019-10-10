@@ -197,16 +197,7 @@ bot.on("message", async message => {
         .addField("Total members", message.guild.memberCount)
         return message.channel.send(serverembed);
     }
-    if(cmd === `${prefix}modules`){
-        let icon = bot.user.displayAvatarURL;
-        let modulesembed = new discord.RichEmbed()
-        .setColor("800080")
-        .addField("Active Modules", "say, emotes, commands, clear, report")
-        return message.channel.send(modulesembed);
-    }
-
-
-
+    
     //emotes
     let eUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
     //hug
