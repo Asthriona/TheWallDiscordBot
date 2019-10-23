@@ -16,5 +16,6 @@ module.exports.run = async (bot, message, args) => {
 }
 
 module.exports.help = {
-    name: "uptime"
+    name: "uptime",
+    description: "Show... bot uptime? more or less."
 }

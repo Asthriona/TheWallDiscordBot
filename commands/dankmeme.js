@@ -27,5 +27,6 @@ module.exports.run = async (bot, message, args) => {
     console.log(`${message.author.username} used !Rmeme`)
 }
 module.exports.help = {
-    name: "Rmeme"
+    name: "Rmeme",
+    description: "Random picture from r/dankmeme"
 }

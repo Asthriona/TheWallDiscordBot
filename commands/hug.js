@@ -15,5 +15,6 @@ module.exports.run = async (bot, message, args) => {
 }
 
 module.exports.help = {
-    name: "hug"
+    name: "hug",
+    description: "FREE HUG! (Dont forget to mention the target!)"
 }

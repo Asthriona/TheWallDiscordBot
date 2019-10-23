@@ -13,5 +13,6 @@ module.exports.run = async (bot, message, args) => {
 }
 
 module.exports.help = {
-    name: "shutdown"
+    name: "shutdown",
+    description: "PLEASE DONT USE IT! :c"
 }

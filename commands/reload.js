@@ -17,5 +17,6 @@ module.exports.run = async (bot, message, args) => {
 }
 
 module.exports.help = {
-    name: "reload"
+    name: "reload",
+    description: "Reload all the commands (NOT WORKING)"
 }

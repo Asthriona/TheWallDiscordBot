@@ -21,5 +21,6 @@
     }
 
     module.exports.help = {
-        name: "report"
+        name: "report",
+        description: "Report someone in #Report channel (use: !report [@username] [Raison.])"
     }

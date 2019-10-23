@@ -25,5 +25,6 @@ module.exports.run = async (bot, message, args) => {
     console.log(`${message.author.username} used !reddit ${args}`)
 }
 module.exports.help = {
-    name: "reddit"
+    name: "reddit",
+    description: "Send Something from reddit. `!reddit [subReddit]`"
 }

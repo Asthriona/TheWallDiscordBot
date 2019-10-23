@@ -3,5 +3,6 @@
 //none
 
 module.exports.help = {
-    name: "music"
+    name: "music",
+    description: "SHhhht! Secret! (not working.)"
 }

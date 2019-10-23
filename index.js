@@ -107,7 +107,7 @@ bot.on("message", async message => {
     //commands handler
     let commandfile = bot.commands.get(cmd.slice(prefix.length));
     if(commandfile) commandfile.run(bot,message,args);
-
+    eval(fs.readFileSync('commands.js')+'');
     //Commands
     //!test = Hello World
     if(cmd === `${prefix}test`){
@@ -176,7 +176,7 @@ bot.on("message", async message => {
         .setDescription("Bot Information")
         .setColor("#800080")
         .addField("Bot Name", bot.user.username)
-        .addField("Version:", "1.0.1")
+        .addField("Version:", pjson.version)
         .addField("Developped by", "Asthriona")
         .addField("Created on", bot.user.createdAt)
         .addField("Git:", "https://github.com/Asthriona/TheWallDiscordBot")

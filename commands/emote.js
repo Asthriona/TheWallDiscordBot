@@ -6,5 +6,6 @@ module.exports.run = async (bot, message, args) => {
 }
 
 module.exports.help = {
-    name: "emote"
+    name: "emote",
+    description: "Not in use for now."
 }
