@@ -88,6 +88,7 @@ if (process.env.NODE_ENV === 'production') {
         .addField("Bot Status:", "Ready!")
         .addField("Version:", pjson.version)
         .addField("Version name: ", pjson.codeName)
+        .addField("Website:", "https://TheWall.ovh")
         .setFooter(`The Wall Discord bot`, `${bicon}`, 'https://TheWall.ovh')
         .setThumbnail(bicon);
         return channeldev.sendMessage(versionembed);
