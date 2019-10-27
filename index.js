@@ -66,6 +66,8 @@ if (process.env.NODE_ENV === 'production') {
         .addField("Bot Status:", "Ready!")
         .addField("Version:", pjson.version)
         .addField("Version name: ", pjson.codeName)
+        .addField("Env", `${process.env.NODE_ENV}`)
+        .addField('ChangsLogs:', 'https://github.com/Asthriona/TheWallDiscordBot/blob/master/CHANGELOGS.md')
         .setFooter(`The Wall Discord bot`, `${bicon}`, 'https://TheWall.ovh')
         .setThumbnail(bicon);
         return channelprod.sendMessage(versionembed), channeldev.sendMessage(versionembed);
@@ -271,7 +273,24 @@ bot.on("message", async message => {
         return message.channel.send(`*-You ask The Wall to resurect  ${eUser}.-* * The wall cast resurection on  ${eUser}.*`);
     }
 
-    if(cmd === `${prefix}ah`){
+    //STATUS
+    if(cmd === `${prefix}idle`){
+        bot.user.setStatus('idle')
+        .catch(console.error);
+    }
+    if(cmd === `${prefix}dnd`){
+        bot.user.setStatus('dnd')
+        .catch(console.error);
+    }
+    if(cmd === `${prefix}online`){
+        bot.user.setStatus('online')
+        .catch(console.error);
+    }
+    if(cmd === `${prefix}offline`){
+        bot.user.setStatus('offline')
+        .catch(console.error);
+    }
+        if(cmd === `${prefix}ah`){
             bot.user.setStatus('')
             bot.user.setPresence({
                 game: {
@@ -291,7 +310,41 @@ bot.on("message", async message => {
             }
         });
 }
+if(cmd === `${prefix}play`){
+    bot.user.setStatus('')
+    bot.user.setPresence({
+        game: {
+            name: `${args}`,
+            type: "PLAYING",
+            url: "https://www.asthriona.com/"
+        }
+    });
+    logger.info(`${message.author.username}  set wall presence to play "${args}"`)
+}
+if(cmd === `${prefix}watch`){
+    bot.user.setStatus('')
+    bot.user.setPresence({
+        game: {
+            name: `${args}`,
+            type: "WATCHING",
+            url: "https://www.asthriona.com/"
+        }
+    });
+    logger.info(`${message.author.username}  set wall presence to watch "${args}"`)
+}
+if(cmd === `${prefix}stream`){
+    bot.user.setStatus('')
+    bot.user.setPresence({
+        game: {
+            name: `${args}`,
+            type: "Streaming",
+            url: "https://www.twitch.tv/Asthriona"
+        }
+    });
+    logger.info(`${message.author.username}  set wall presence to Streaming "${args}"`)
+}
 });
+
 if (process.env.NODE_ENV === 'production'){
     bot.login(botconfig.token) 
 }else{
