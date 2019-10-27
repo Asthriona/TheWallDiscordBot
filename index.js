@@ -67,7 +67,7 @@ if (process.env.NODE_ENV === 'production') {
         .addField("Version:", pjson.version)
         .addField("Version name: ", pjson.codeName)
         .addField("Env", `${process.env.NODE_ENV}`)
-        .addField('ChangsLogs:', 'https://github.com/Asthriona/TheWallDiscordBot/blob/master/CHANGELOGS.md')
+        .addField('ChangsLogs:', 'https://git.io/JeufX')
         .setFooter(`The Wall Discord bot`, `${bicon}`, 'https://TheWall.ovh')
         .setThumbnail(bicon);
         return channelprod.sendMessage(versionembed), channeldev.sendMessage(versionembed);
@@ -91,6 +91,8 @@ if (process.env.NODE_ENV === 'production') {
         .addField("Version:", pjson.version)
         .addField("Version name: ", pjson.codeName)
         .addField("Website:", "https://TheWall.ovh")
+        .addField("Env", `${process.env.NODE_ENV}`)
+        .addField('ChangsLogs:', 'https://git.io/JeufX')
         .setFooter(`The Wall Discord bot`, `${bicon}`, 'https://TheWall.ovh')
         .setThumbnail(bicon);
         return channeldev.sendMessage(versionembed);
