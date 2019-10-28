@@ -57,29 +57,29 @@ if (process.env.NODE_ENV === 'production') {
                 url: "https://www.asthriona.com/"
             }
         });
-        var channelprod = bot.channels.get(botconfig.channelprod);
-        var channeldev = bot.channels.get(botconfig.channeldev);
-        let bicon = bot.user.displayAvatarURL;
-        let versionembed = new discord.RichEmbed()
-        .setColor("#800080")
-        .setAuthor('Bot Rrestarted!', 'https://cdn.discordapp.com/emojis/515665388495962112.png', 'https://github.com/Asthriona')
-        .addField("Bot Status:", "Ready!")
-        .addField("Version:", pjson.version)
-        .addField("Version name: ", pjson.codeName)
-        .addField("Env", `${process.env.NODE_ENV}`)
-        .addField('ChangsLogs:', 'https://git.io/JeufX')
-        .setFooter(`The Wall Discord bot`, `${bicon}`, 'https://TheWall.ovh')
-        .setThumbnail(bicon);
-        return channelprod.sendMessage(versionembed), channeldev.sendMessage(versionembed);
+       //var channelprod = bot.channels.get(botconfig.channelprod);
+       //var channeldev = bot.channels.get(botconfig.channeldev);
+       //let bicon = bot.user.displayAvatarURL;
+       //let versionembed = new discord.RichEmbed()
+       //.setColor("#800080")
+       //.setAuthor('Bot Rrestarted!', 'https://cdn.discordapp.com/emojis/515665388495962112.png', 'https://github.com/Asthriona')
+       //.addField("Bot Status:", "Ready!")
+       //.addField("Version:", pjson.version)
+       //.addField("Version name: ", pjson.codeName)
+       //.addField("Env", `${process.env.NODE_ENV}`)
+       //.addField('ChangsLogs:', 'https://git.io/JeufX')
+       //.setFooter(`The Wall Discord bot`, `${bicon}`, 'https://TheWall.ovh')
+       //.setThumbnail(bicon);
+       //return channelprod.sendMessage(versionembed), channeldev.sendMessage(versionembed);
     });
-} else {
+}else{
     bot.on('ready', () => {
         bot.user.setStatus('')
         bot.user.setPresence({
             game: {
-                name: 'Developement mode',
-                type: "Streaming",
-                url: "https://www.twitch.tv/Asthriona"
+                name: 'Auction House Wall',
+                type: "WATCHING",
+                url: "https://www.asthriona.com/"
             }
         });
         var channeldev = bot.channels.get(botconfig.channeldev);
@@ -304,19 +304,21 @@ bot.on("message", async message => {
     }
     if(cmd === `${prefix}wow`){
         bot.user.setStatus('')
-        bot.user.setPresence({
-            game: {
-                name: 'World Of Warcraft',
-                type: "PLAYING",
-                url: "https://www.asthriona.com/"
-            }
-        });
-}
+            bot.user.setPresence({
+                game: {
+                    name: 'World of Warcraft',
+                    type: `${args}`,
+                    url: "https://www.twitch.tv/Asthriona"
+                }
+            });
+
 if(cmd === `${prefix}play`){
+    args.join(" ");
     bot.user.setStatus('')
     bot.user.setPresence({
+        
         game: {
-            name: `${args}`,
+            name: args.join(" "),
             type: "PLAYING",
             url: "https://www.asthriona.com/"
         }
@@ -327,7 +329,7 @@ if(cmd === `${prefix}watch`){
     bot.user.setStatus('')
     bot.user.setPresence({
         game: {
-            name: `${args}`,
+            name: args.join(" "),
             type: "WATCHING",
             url: "https://www.asthriona.com/"
         }
@@ -338,17 +340,19 @@ if(cmd === `${prefix}stream`){
     bot.user.setStatus('')
     bot.user.setPresence({
         game: {
-            name: `${args}`,
+            name: args.join(" "),
             type: "Streaming",
             url: "https://www.twitch.tv/Asthriona"
         }
     });
     logger.info(`${message.author.username}  set wall presence to Streaming "${args}"`)
 }
+}
 });
+
 
 if (process.env.NODE_ENV === 'production'){
     bot.login(botconfig.token) 
 }else{
-    bot.login(botconfig.devtokken)
+    bot.login(botconfig.devtokken) 
 };
