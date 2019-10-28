@@ -270,10 +270,7 @@ bot.on("message", async message => {
         return message.channel.send("GZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ!");
     }
     //!rez = rez
-    if(cmd === `${emote}rez`){
-        logger.info(`${message.author.username} used !rez on ${message.guild.name}`)
-        return message.channel.send(`*-You ask The Wall to resurect  ${eUser}.-* * The wall cast resurection on  ${eUser}.*`);
-    }
+
 
     //STATUS
     if(cmd === `${prefix}idle`){
@@ -311,18 +308,17 @@ bot.on("message", async message => {
                     url: "https://www.twitch.tv/Asthriona"
                 }
             });
-
+        }
 if(cmd === `${prefix}play`){
-    args.join(" ");
     bot.user.setStatus('')
     bot.user.setPresence({
-        
         game: {
             name: args.join(" "),
             type: "PLAYING",
-            url: "https://www.asthriona.com/"
+            url: "https://www.twitch.tv/Asthriona"
         }
     });
+    
     logger.info(`${message.author.username}  set wall presence to play "${args}"`)
 }
 if(cmd === `${prefix}watch`){
@@ -347,8 +343,12 @@ if(cmd === `${prefix}stream`){
     });
     logger.info(`${message.author.username}  set wall presence to Streaming "${args}"`)
 }
+if(cmd === `${emote}rez`){
+    logger.info(`${message.author.username} used !rez on ${message.guild.name}`)
+    return message.channel.send(`*-You ask The Wall to resurect  ${eUser}.-* * The wall cast resurection on  ${eUser}.*`);
 }
-});
+}
+);
 
 
 if (process.env.NODE_ENV === 'production'){
