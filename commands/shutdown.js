@@ -5,6 +5,7 @@ module.exports.run = async (bot, message, args) => {
 
     try{
         await message.channel.send("bot is shuting down...")
+        bot.logout
         process.exit()
     } catch(e) {
         message.channel.send(`ERROR: ${e.message}`)
