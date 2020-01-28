@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/Asthriona/TheWallDiscordBot#readme",
   "dependencies": {
+    "axios": "^0.19.1",
     "connect": "^3.7.0",
     "discord.js": "^11.5.1",
     "dotenv": "^8.2.0",
@@ -39,6 +40,7 @@
     "superagent": "^5.1.0",
     "util": "^0.12.1",
     "winston": "^3.2.1",
+    "xmlhttprequest": "^1.8.0",
     "ytdl-core": "^0.29.7"
   },
   "snyk": true
