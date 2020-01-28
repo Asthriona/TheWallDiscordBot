@@ -57,20 +57,7 @@ if (process.env.NODE_ENV === 'production') {
                 url: "https://www.asthriona.com/"
             }
         });
-       //var channelprod = bot.channels.get(botconfig.channelprod);
-       //var channeldev = bot.channels.get(botconfig.channeldev);
-       //let bicon = bot.user.displayAvatarURL;
-       //let versionembed = new discord.RichEmbed()
-       //.setColor("#800080")
-       //.setAuthor('Bot Rrestarted!', 'https://cdn.discordapp.com/emojis/515665388495962112.png', 'https://github.com/Asthriona')
-       //.addField("Bot Status:", "Ready!")
-       //.addField("Version:", pjson.version)
-       //.addField("Version name: ", pjson.codeName)
-       //.addField("Env", `${process.env.NODE_ENV}`)
-       //.addField('ChangsLogs:', 'https://git.io/JeufX')
-       //.setFooter(`The Wall Discord bot`, `${bicon}`, 'https://TheWall.ovh')
-       //.setThumbnail(bicon);
-       //return channelprod.sendMessage(versionembed), channeldev.sendMessage(versionembed);
+        console.log("TheWall Is now up and running in production!")
     });
 }else{
     bot.on('ready', () => {
@@ -82,20 +69,7 @@ if (process.env.NODE_ENV === 'production') {
                 url: "https://www.asthriona.com/"
             }
         });
-        var channeldev = bot.channels.get(botconfig.channeldev);
-        let bicon = bot.user.displayAvatarURL;
-        let versionembed = new discord.RichEmbed()
-        .setColor("#800080")
-        .setAuthor('Bot Rrestarted!', 'https://cdn.discordapp.com/emojis/515665388495962112.png', 'https://github.com/Asthriona')
-        .addField("Bot Status:", "Ready!")
-        .addField("Version:", pjson.version)
-        .addField("Version name: ", pjson.codeName)
-        .addField("Website:", "https://TheWall.ovh")
-        .addField("Env", `${process.env.NODE_ENV}`)
-        .addField('ChangsLogs:', 'https://git.io/JeufX')
-        .setFooter(`The Wall Discord bot`, `${bicon}`, 'https://TheWall.ovh')
-        .setThumbnail(bicon);
-        return channeldev.sendMessage(versionembed);
+        console.log("TheWall Is now up and running in developement!")
     });
 }
 logger.info(`Discord presence set to Auction House Wall, with status type to: Watching`);
@@ -345,10 +319,10 @@ if(cmd === `${prefix}stream`){
 }
 if(cmd === `${emote}rez`){
     logger.info(`${message.author.username} used !rez on ${message.guild.name}`)
-    return message.channel.send(`*-You ask The Wall to resurect  ${eUser}.-* * The wall cast resurection on  ${eUser}.*`);
+    message.channel.send(`*-You ask The Wall to resurect  ${eUser}.-*`);
+    return message.channel.send(`* The wall cast resurection on  ${eUser}` + ".*");
 }
-}
-);
+});
 
 
 if (process.env.NODE_ENV === 'production'){
