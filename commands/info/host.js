@@ -7,14 +7,16 @@ module.exports = {
     category: "info",
     description: "Return system info",
     run: async (bot, message, args) => {
+
         var cpu = osu.cpuUsage(function(v){
             var ram = os.freemem() * 100 / os.totalmem();
             var uptime = os.uptime();
             var load = os.loadavg();
             var hostname = os.hostname();
-            var cpu = os.cpus()
             var sys = osu.platform();
             //var ip = os.networkInterfaces(address)
+          
+
             var niketoi = "Intel(R) Atom(TM) CPU  C2350  @ 1.74GHz"
             
                   let  systemEmbed = new RichEmbed()
@@ -22,7 +24,7 @@ module.exports = {
                   .setDescription("This commands is used to show the stats from the server who host this bot.")
                   .setColor("#800080")
                   .setThumbnail(bot.user.displayAvatarURL)
-                  .addField("CPU Model:", niketoi )
+                  .addField("CPU Model:", niketoi)
                   .addField("CPU Usage:", Math.round(v * 100) + "%", true)
                   .addField("RAM:", Math.round(ram) + "%")
                   .addField("Load:", load, true)
