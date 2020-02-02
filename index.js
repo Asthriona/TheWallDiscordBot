@@ -4,6 +4,10 @@ var fs = require("fs");
 var Canvas = require('canvas');
 var mongoose = require("mongoose");
 
+process.on('unhandledRejection', error => {
+	console.error('Unhandled promise rejection:', error);
+});
+
 require('./music/server');
 
 var bot = new Client({
@@ -104,7 +108,7 @@ bot.on("message", async message =>{
                 //lvl up image              
                 var sendimg = async function sendimg() {
                     await lvlupimg(message, users);
-
+                    return sendimg()
                 }
             }
             users.save().catch(error => console.log(error));
@@ -131,9 +135,8 @@ bot.on("message", async message =>{
     command.run(bot, message, args, RichEmbed)
 
 })
-
-bot.login(botConfig.token)
-console.log("login on discord...")
+    console.log("login on discord...")
+    bot.login(botConfig.token)
 
 
 //Cards Generation
