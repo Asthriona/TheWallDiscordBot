@@ -1,332 +1,229 @@
-var botconfig = require("./botconfig.json");
-var discord = require("discord.js");
+var { Client, RichEmbed, Collection, Attachment } = require('discord.js');
+var botConfig = require('./botconfig.json');
 var fs = require("fs");
-var util = require('util');
-var http = require('http');
-var winston = require('winston');
-var http = require('http');
-var fs = require('fs');
-var index = fs.readFileSync('./monit.html');
-var pjson = require('./package.json');
+var Canvas = require('canvas');
+var mongoose = require("mongoose");
 
-require('dotenv').config();
+require('./music/server');
 
-// Logging //
-const logger = winston.createLogger({
-    transports: [
-        new winston.transports.Console(),
-        new winston.transports.File({ filename: 'debug.log'})
-        
-    ]
+var bot = new Client({
+    disableEveryone: true
 });
-logger.info("Logging system is running...")
 
-//web server for monitoring
-http.createServer(function(req, res) {
-    res.write(index);
-    res.end();
-}).listen(1002);
-logger.info("Web Server started... Monitoring is now Working.");
-logger.info(process.env.NODE_ENV) // root
-var bot = new discord.Client({disableEveryone: false});
-bot.commands = new discord.Collection();
+//YukikoDB
+mongoose.connect(botConfig.dbLink, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).catch(error => handleError(error));
+mongoose.connection.on('error', function(e) {
+    console.log('YukikoDB: Can not connect Error: ' + e);
+    var {bot} = new discord.Client({ disableEveryone: true });
+    bot.commands = new discord.Collection();
+    process.exit();
+});
+mongoose.connection.once('open', function(d) { 
+    console.log("\x1b[32mYukikoDB:\x1b[0m connected to \x1b[31m" + mongoose.connection.host + " \x1b[0m");
+})
+var Users = require('./model/xp.js')
 
-fs.readdir("./commands", (err, files) => {
-    if(err) logger.debug(err);
+bot.commands = new Collection();
+bot.aliases = new Collection();
+bot.categories = fs.readdirSync("./commands/");
 
-    let jsfile = files.filter(f => f.split(".").pop() === "js")
-    if(jsfile.length <= 0){
-        logger.info("Couldn't find commands.");
-        return;
-    }
-    logger.info("Loading files...");
-    jsfile.forEach((f, i) =>{
-        let props = require(`./commands/${f}`);
-        logger.info(`${f} loaded!`);
-        bot.commands.set(props.help.name, props);
+["command"].forEach(handler => {
+    require(`./handler/${handler}`)(bot);
+})
+
+bot.on('disconnect', () => console.log("\x1b[32m${bot.user.username}\x1b[0m is Disconected... Waiting for reconnect"));
+bot.on('reconnecting', () => console.log("\x1b[32m${bot.user.username}\x1b[0m  is reconnecting."))
+
+bot.on("ready", () => {
+    console.log(`\x1b[32m${bot.user.username}\x1b[0m is now started and running in \x1b[31m${process.env.NODE_ENV} \x1b[0menvironement!`);
+    bot.user.setPresence({
+        game:{
+            name: "coding 2.0!",
+            type: "WATCHING"
+        }
     })
 })
 
-if (process.env.NODE_ENV === 'production') {
-    bot.on('ready', () => {
-        bot.user.setStatus('')
-        bot.user.setPresence({
-            game: {
-                name: 'Auction House Wall',
-                type: "WATCHING",
-                url: "https://www.asthriona.com/"
-            }
-        });
-        console.log("TheWall Is now up and running in production!")
-    });
-}else{
-    bot.on('ready', () => {
-        bot.user.setStatus('')
-        bot.user.setPresence({
-            game: {
-                name: 'Auction House Wall',
-                type: "WATCHING",
-                url: "https://www.asthriona.com/"
-            }
-        });
-        console.log("TheWall Is now up and running in developement!")
-    });
-}
-logger.info(`Discord presence set to Auction House Wall, with status type to: Watching`);
-bot.on("message", async message => {
-    if(message.author.bot) return;
-    if(message.channel.type === "dm") return;
-    
-    
-    let prefix = botconfig.prefix;
-    let emote = botconfig.emote;
-    let messageArray = message.content.split(" ");
-    let cmd = messageArray[0];
-    let args = messageArray.slice(1);
-    //commands handler
-    let commandfile = bot.commands.get(cmd.slice(prefix.length));
-    if(commandfile) commandfile.run(bot,message,args);
-    eval(fs.readFileSync('commands.js')+'');
-    //Commands
-    //!test = Hello World
-    if(cmd === `${prefix}test`){
-        logger.info(`${message.author.username} used !test on ${message.guild.name}`)
-        return message.channel.send("Hello World!");
+// Welcome and stuff
+bot.on("guildMemberAdd", async member => {
+    const channel = member.guild.channels.find(channel => channel.name === "welcome");
+    if (!channel) {
+        const channel = member.guild.channels.find(channel => channel.name === "bienvenue");
+        return await WelcomeCad(member, channel);
+    } else {
+        return await WelcomeCad(member, channel);
     }
-    //spam test
-    if (cmd === `${prefix}hello`){
-        return message.channel.send("!hello");
-    }
-    //!ping = Pong
-    if(cmd === `${prefix}ping`){
-        logger.info(`${message.author.username} used !ping on ${message.guild.name}`)
-        return message.channel.send("Pong");
-    }
-    //Praise = praised
-    if(cmd === `${prefix}praise`){
-        logger.info(`${message.author.username} used !praise on ${message.guild.name}`)
-        return message.channel.send("*-You praised The Wall.-* I will protect you!");
-    }
-    //pray = pray
-    if(cmd === `${prefix}pray`){
-        logger.info(`${message.author.username} used !pray on ${message.guild.name}`)
-        return message.channel.send("*-You pray to The Wall.-* I will protect you!");
-    }
-    //rez = rez
-    if(cmd === `${prefix}rez`){
-        logger.info(`${message.author.username} used !rez on ${message.guild.name}`)
-        return message.channel.send("*-You ask The Wall to be resurect.-* *The wall cast resurection to you.*");
-    }
-    //in game help
-    if(cmd === `${prefix}help`){
-        let sicon = message.guild.iconURL;
-        let helpembed = new discord.RichEmbed()
-        .setDescription("Commands")
-        .setColor("#800080")
-        .setThumbnail(sicon)
-        .addField("!test", "Check if the bot has crash.")
-        .addField("!ping", "Pong.")
-        .addField("!praise", "PRAISE THE WALL!")
-        .addField("!pray", "The Wall listen your prayer.")
-        .addField("!rez", "Get resurected!")
-        .addField("!clear", "Clear message useage: !clear 10 to remove 10 last messages")
-        .addField("!say", "Make the Wall talking!")
-        .addField("!help", "Show this...")
-        .addField("!modules", "Show active modules")
-        .addField("!server", "Show server infos.")
-        .addField("!info", "Show bot infos")
-        .addField("!backhand","Do a backhand to surprise The Wall!")
-        .addField("/hug", "You hug someone! Usage: /hug @user")
-        .addField("/boop", "You boop someone! Usage: /boop @user")
-        .addField("/poke", "You poke someone! Usage: /poke @user")
-        .addField("/flirt", "Sirius & Friend keep flirting all the time. Usage: /flirt @user")
-        .addField("/speed", "2 f4st 4 u!")
-        .addField("/violin", "The Wall plays the world's smallest violin")
-        .addField("/rez", "ask The Wall to be resurect.")
-        .addField("/kneel", "kneel befor your lord!")
-        .addField("/lol", "You so funny! :')")
-        .addField("/f", "a good old danky F to pay respect.")
-        return message.channel.send(helpembed);
-    }
-    //botinfo
-    if(cmd === `${prefix}info`){
-        let bicon = bot.user.displayAvatarURL;
-        let botembed = new discord.RichEmbed()
-        .setDescription("Bot Information")
-        .setColor("#800080")
-        .addField("Bot Name", bot.user.username)
-        .addField("Version:", pjson.version)
-        .addField("Developped by", "Asthriona")
-        .addField("Created on", bot.user.createdAt)
-        .addField("Git:", "https://github.com/Asthriona/TheWallDiscordBot")
-        .addField("Server running this bot:", bot.guilds.size)
-        .setThumbnail(bicon);
-        return message.channel.send(botembed)
-    }
-    //server infos
-    if(cmd === `${prefix}server`){
-        let sicon = message.guild.iconURL;
-        let serverembed = new discord.RichEmbed()
-        .setDescription("Server Information")
-        .setColor("#800080")
-        .setThumbnail(sicon)
-        .addField("Server Name", message.guild.name)
-        .addField("Created on", message.guild.createdAt)
-        .addField("You joined", message.member.joinedAt)
-        .addField("Server Owner", message.guild.owner)
-        .addField("Total members", message.guild.memberCount)
-        return message.channel.send(serverembed);
-    }
-
-    //emotes
-    let eUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
-    //hug
-    if(cmd === `${emote}hug`){
-        logger.info(`${message.author.username} used hug on ${eUser} on ${message.guild.name}`)
-        return message.channel.send(`${message.author} hug ${eUser}`);
-    }
-    //boop
-    if(cmd === `${emote}boop`){
-        logger.info(`${message.author} used boop on ${eUser} on ${message.guild.name}`)
-        return message.channel.send(`${message.author} boops ${eUser} nose!`);
-    }
-    //poke
-    if(cmd === `${emote}poke`){
-        logger.info(`${message.author} used poke on ${eUser} on ${message.guild.name}`)
-        return message.channel.send(`${message.author} poke ${eUser}. Hey!`);
-    }
-    //flirt
-    if(cmd === `${emote}flirt`){
-        logger.info(`${message.author} used flirt on ${eUser} on ${message.guild.name}`)
-        return message.channel.send(`${message.author} flirt with ${eUser}`);
-    }
-    //F
-    if(cmd === `${emote}F`){
-        logger.info(`${message.author.username} used F on ${message.guild.name}`)
-        return message.channel.send(`-The Wall pays respect with a dank ***F***  to ${eUser}`);
-    }
-    //f
-    if(cmd === `${emote}f`){
-        logger.info(`${message.author.username} used F on ${message.guild.name}`)
-        return message.channel.send(`-The Wall pays respect with a dank ***F***  to ${eUser}`);
-    }
-    //lol
-    if(cmd === `${emote}lol`){
-        logger.info(`${message.author.username} used lol on ${message.guild.name}`)
-        return message.channel.send(`${message.author} laught`);
-    }
-
-    //kneel
-    if(cmd === `${emote}kneel`){
-        logger.info(`${message.author.username} used kneel on ${message.guild.name}`)
-        return message.channel.send(`${message.author} Kneel befor The Wall.`);
-    }
-    //rez
-    if(cmd === `${emote}rez`){
-        logger.info(`${message.author.username} used rez on ${message.guild.name}`)
-        return message.channel.send(`${message.author} *ask The Wall to be resurect.-* *The wall cast resurection to ${eUser}`);
-    }
-    //violin
-    if(cmd === `${emote}violin`){
-        logger.info(`${message.author.username} used violin on ${message.guild.name}`)
-        return message.channel.send(`The Wall plays the world's smallest violin for ${message.author}`);
-    }
-    // delete later
-    if(cmd === `${prefix}backhand`){
-        return message.channel.send("Pong!");
-    }
-    if(cmd === `${emote}speed`){
-        logger.info(`${message.author.username} used speed on ${message.guild.name}`)
-        return message.channel.send("***KECHOW!!!!***");
-    }
-    if(cmd === `${emote}gz`){
-        logger.info(`${message.author.username} used gz on ${message.guild.name}`)
-        return message.channel.send("GZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ!");
-    }
-    //!rez = rez
-
-
-    //STATUS
-    if(cmd === `${prefix}idle`){
-        bot.user.setStatus('idle')
-        .catch(console.error);
-    }
-    if(cmd === `${prefix}dnd`){
-        bot.user.setStatus('dnd')
-        .catch(console.error);
-    }
-    if(cmd === `${prefix}online`){
-        bot.user.setStatus('online')
-        .catch(console.error);
-    }
-    if(cmd === `${prefix}offline`){
-        bot.user.setStatus('offline')
-        .catch(console.error);
-    }
-        if(cmd === `${prefix}ah`){
-            bot.user.setStatus('')
-            bot.user.setPresence({
-                game: {
-                    name: 'Auction House Wall',
-                    type: "WATCHING",
-                    url: "https://www.asthriona.com/"
-                }
-            });
-    }
-    if(cmd === `${prefix}wow`){
-        bot.user.setStatus('')
-            bot.user.setPresence({
-                game: {
-                    name: 'World of Warcraft',
-                    type: `${args}`,
-                    url: "https://www.twitch.tv/Asthriona"
-                }
-            });
-        }
-if(cmd === `${prefix}play`){
-    bot.user.setStatus('')
-    bot.user.setPresence({
-        game: {
-            name: args.join(" "),
-            type: "PLAYING",
-            url: "https://www.twitch.tv/Asthriona"
-        }
-    });
-    
-    logger.info(`${message.author.username}  set wall presence to play "${args}"`)
-}
-if(cmd === `${prefix}watch`){
-    bot.user.setStatus('')
-    bot.user.setPresence({
-        game: {
-            name: args.join(" "),
-            type: "WATCHING",
-            url: "https://www.asthriona.com/"
-        }
-    });
-    logger.info(`${message.author.username}  set wall presence to watch "${args}"`)
-}
-if(cmd === `${prefix}stream`){
-    bot.user.setStatus('')
-    bot.user.setPresence({
-        game: {
-            name: args.join(" "),
-            type: "Streaming",
-            url: "https://www.twitch.tv/Asthriona"
-        }
-    });
-    logger.info(`${message.author.username}  set wall presence to Streaming "${args}"`)
-}
-if(cmd === `${emote}rez`){
-    logger.info(`${message.author.username} used !rez on ${message.guild.name}`)
-    message.channel.send(`*-You ask The Wall to resurect  ${eUser}.-*`);
-    return message.channel.send(`* The wall cast resurection on  ${eUser}` + ".*");
-}
 });
 
+bot.on("guildMemberRemove", member => {
+    const channel = member.guild.channels.find(channel => channel.name === "welcome");
+    if (!channel) {
+        const channel = member.guild.channels.find(channel => channel.name === "bienvenue");
+        channel.send(`${member} Viens de quitter le serveur! https://cdn.asthriona.com/sad.gif`);
+    } else {
+        channel.send(`${member} Viens de quitter le serveur! https://cdn.asthriona.com/sad.gif`);
+    }
+});
+bot.on("message", async message =>{
+            //XP System
+    //DA NEW XP SYSTEM 2.0
+    let xpAdd = Math.floor(Math.random() * 7) + 8;
+    let messageAdd = +1
 
-if (process.env.NODE_ENV === 'production'){
-    bot.login(botconfig.token) 
-}else{
-    bot.login(botconfig.devtokken) 
+
+    Users.findOne({
+        did: message.author.id,
+        serverID: message.guild.id
+    }, (err, users) => {
+        if (err) console.log(err);
+        if (!users) {
+            var newUsers = new Users({
+                did: message.author.id,
+                username: message.author.username,
+                serverID: message.guild.id,
+                xp: xpAdd,
+                level: 0,
+                message: messageAdd,
+                avatarURL: message.author.displayAvatarURL
+            })
+
+            newUsers.save().catch(error => console.log(error));
+        } else {
+            users.xp = users.xp + xpAdd;
+            users.message = users.message + messageAdd
+            users.username = message.author.username
+            users.avatarURL = message.author.displayAvatarURL
+
+            let nxtlvl = 300 * Math.pow(2, users.level)
+            if (users.xp >= nxtlvl) {
+                users.level = users.level + 1
+
+                //lvl up image              
+                var sendimg = async function sendimg() {
+                    await lvlupimg(message, users);
+
+                }
+            }
+            users.save().catch(error => console.log(error));
+        }
+    });
+});
+
+bot.on("message", async message =>{
+    //Logging
+    console.log(`${message.guild.name} -> ${message.author.username}: ${message.content}`)
+    
+    let prefix = botConfig.prefix;
+    if(message.author.bot) return;
+    if(message.channel.type === "dm") return;
+    if(!message.content.startsWith(prefix)) return;
+    if(!message.member) message.member = await message.guild.fetchMember(message)
+
+    let args = message.content.slice(prefix.length).trim().split(/ +/g);
+    let cmd = args.shift().toLowerCase();
+    if(cmd === 0) return;
+    let command = bot.commands.get(cmd);
+    if(!command) command = bot.commands.get(bot.aliases.get(cmd))
+    if(command)
+    command.run(bot, message, args, RichEmbed)
+
+})
+
+if (process.env.NODE_ENV === 'production') {
+    bot.login(botConfig.token)
+    console.log("login on discord...")
+} else {
+    bot.login(botConfig.tokenDev)
+    console.log("login on discord...")
 };
+
+
+//Cards Generation
+
+async function lvlupimg(message, users) {
+    const applyText = (canvas, text) => {
+        const ctx = canvas.getContext('2d');
+        let fontSize = 70;
+        do {
+            ctx.font = `${fontSize -= 10}px sans-serif`;
+        } while (ctx.measureText(text).width > canvas.width - 300);
+        return ctx.font;
+    };
+    var canvas = Canvas.createCanvas(934, 282);
+    var ctx = canvas.getContext('2d');
+    var background = await Canvas.loadImage('https://cdn.asthriona.com/discordbotCard.jpg');
+    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+    //Draw rectangle
+    ctx.beginPath();
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+    ctx.fillRect(260, 80, 650, 160);
+    ctx.closePath();
+    ctx.stroke();
+    //show Username
+    ctx.font = applyText(canvas, message.author.username);
+    ctx.fillStyle = '#fff';
+    ctx.fillText(message.author.username + " Level up!", 280, 136);
+    //Show Level & XP
+    let nxtlvl = 300 * Math.pow(2, users.level);
+    var xpleft = nxtlvl - users.xp;
+    ctx.font = '40px sans-serif';
+    ctx.fillStyle = '#fff';
+    ctx.fillText("You are level now " + users.level + " - " + users.xp + " XP", 280, 180);
+    //xp Left
+    ctx.font = '50px sans-serif';
+    ctx.fillStyle = '#fff';
+    ctx.fillText("Next Level in " + xpleft + " xp", 280, 225);
+    //Get avatar
+    await GetAvatar(message, ctx);
+    //put image together and send it
+    var lvlupimg = new Attachment(canvas.toBuffer(), 'lvlup-image.png');
+    message.channel.send(lvlupimg);
+}
+
+async function WelcomeCad(member, channel) {
+    const applyText = (canvas, text) => {
+        const ctx = canvas.getContext('2d');
+        let fontSize = 70;
+        do {
+            ctx.font = `${fontSize -= 10}px sans-serif`;
+        } while (ctx.measureText(text).width > canvas.width - 300);
+        return ctx.font;
+    };
+
+    var canvas = Canvas.createCanvas(934, 282);
+    var ctx = canvas.getContext('2d');
+    var background = await Canvas.loadImage('https://cdn.asthriona.com/discordbotCard.jpg');
+    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+    ctx.fillRect(260, 80, 650, 130);
+    ctx.stroke();
+    //get username 
+    ctx.font =  applyText(canvas, member.user.username);
+    ctx.fillStyle = '#fff';
+    ctx.fillText(member.user.username, 280, 141);
+    //Get guild name
+    ctx.font = applyText(canvas, member.guild.name);
+    ctx.fillStyle = '#fff';
+    ctx.fillText("Welcome on " + member.guild.name, 280, 185);
+    //Get avatar
+    var avatar = await Canvas.loadImage(member.user.displayAvatarURL);
+    ctx.beginPath();
+    ctx.arc(140, 128, 110, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.clip();
+    ctx.drawImage(avatar, 25, 15, 256, 256);
+    var attachment = new discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
+    channel.send(attachment)
+}
+async function GetAvatar(message, ctx) {
+    var avatar = await Canvas.loadImage(message.author.displayAvatarURL);
+    ctx.beginPath();
+    ctx.arc(125, 140, 100, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.clip();
+    ctx.drawImage(avatar, 25, 40, 200, 200);
+}
