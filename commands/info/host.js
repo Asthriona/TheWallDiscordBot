@@ -12,8 +12,10 @@ module.exports = {
             var uptime = os.uptime();
             var load = os.loadavg();
             var hostname = os.hostname();
+            var cpu = os.cpus()
+            var sys = osu.platform();
             //var ip = os.networkInterfaces(address)
-            var niketoi = "Intel(R) Xeon(R) CPU E3-1230 v3 @ 3.30GHz"
+            var niketoi = "Intel(R) Atom(TM) CPU  C2350  @ 1.74GHz"
             
                   let  systemEmbed = new RichEmbed()
                   .setTitle("System Information")
@@ -25,6 +27,7 @@ module.exports = {
                   .addField("RAM:", Math.round(ram) + "%")
                   .addField("Load:", load, true)
                   .addField("Server Hostname:", hostname)
+                  .addField("Server OS:", sys)
                   .addField("Server Uptime:", Math.round(uptime / 3600 / 24) + "days", true)
                   .setFooter("Powered by Asthriona LLC", bot.user.displayAvatarURL)
                   return message.channel.send(systemEmbed)
