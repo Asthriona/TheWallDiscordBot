@@ -132,13 +132,8 @@ bot.on("message", async message =>{
 
 })
 
-if (process.env.NODE_ENV === 'production') {
-    bot.login(botConfig.token)
-    console.log("login on discord...")
-} else {
-    bot.login(botConfig.tokenDev)
-    console.log("login on discord...")
-};
+bot.login(botConfig.token)
+console.log("login on discord...")
 
 
 //Cards Generation
