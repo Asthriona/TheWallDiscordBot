@@ -4,6 +4,7 @@ var { RichEmbed } = require("discord.js");
 module.exports = {
     name: "reddit",
     category: "info",
+    aliases: ["r", "dankmemepls"],
     description: "Envoie une image d'un sub reddit",
     usage: "$reddit [sub-reddit]",
     run: async (bot, message, args) => {

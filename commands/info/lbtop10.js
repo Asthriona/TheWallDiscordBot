@@ -20,10 +20,10 @@ module.exports = {
         ]).exec((err, res) => {
         if(err) console.log(err);
         let embed = new RichEmbed()
-        .setTitle("Yukiko's Leaderboard!")
+        .setTitle(bot.user.username + "'s Leaderboard!")
         .setThumbnail(bot.user.displayAvatarURL)
         .setDescription("Here is our top10!")
-        .setFooter('Powered by Yukiko', bot.user.displayAvatarURL, "http://yukiko.nishikino.me/")
+        .setFooter('Powered by ' + bot.user.username, bot.user.displayAvatarURL, "http://yukiko.nishikino.me/")
         if(res.length === 0){
             //if no result
             embed.setColor("red")

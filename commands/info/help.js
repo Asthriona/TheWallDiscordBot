@@ -17,7 +17,7 @@ module.exports = {
 }
 function getAll(bot, message){
     var embed = new RichEmbed()
-    .setColor("RANDOM")
+    .setColor("PURPLE")
     var commands = (category) => {
         return bot.commands
             .filter(cmd => cmd.category === category)
