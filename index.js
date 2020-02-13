@@ -21,8 +21,8 @@ mongoose.connect(botConfig.dbLink, {
 }).catch(error => handleError(error));
 mongoose.connection.on('error', function(e) {
     console.log('YukikoDB: Can not connect Error: ' + e);
-    var {bot} = new discord.Client({ disableEveryone: true });
-    bot.commands = new discord.Collection();
+    var {bot} = new Client({ disableEveryone: true });
+    bot.commands = new Collection();
     process.exit();
 });
 mongoose.connection.once('open', function(d) { 
