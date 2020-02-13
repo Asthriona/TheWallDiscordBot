@@ -1,16 +1,16 @@
 {
   "name": "asthrimodbot",
-  "version": "2.1.1",
+  "version": "2.0.0",
   "description": "A simple discord bot to do moderation stuff and few other function",
   "main": "index.js",
-  "codeName": "I'm sad :c",
+  "codeName": "[ho hi!]",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon start"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Asthriona/AsthriModBob.git"
+    "url": "git+https://github.com/Asthriona/TheWallDiscordBot"
   },
   "keywords": [
     "Discord",
