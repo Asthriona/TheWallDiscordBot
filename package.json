@@ -43,7 +43,7 @@
     "fs": "0.0.1-security",
     "glob": "^7.1.6",
     "has-symbols": "^1.0.1",
-    "mongodb": "^3.4.1",
+    "mongodb": "^3.5.2",
     "mongoose": "^5.8.11",
     "ms": "^2.1.2",
     "node-opus": "^0.3.3",
