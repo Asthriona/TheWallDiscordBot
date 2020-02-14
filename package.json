@@ -40,7 +40,7 @@
     "express-handlebars": "^3.1.0",
     "fast-sort": "^2.0.1",
     "follow-redirects": "^1.9.0",
-    "fs": "0.0.1-security",
+    "fs": "0.0.2",
     "glob": "^7.1.6",
     "has-symbols": "^1.0.1",
     "mongodb": "^3.4.1",
