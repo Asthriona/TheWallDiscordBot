@@ -1,47 +1,58 @@
 {
-  "name": "thewalldiscordbot",
-  "version": "1.2.0",
-  "codeName": "[MOAR PAT PAT!]",
-  "description": "Just a lil bot for The Wall",
+  "name": "asthrimodbot",
+  "version": "2.0.0",
+  "description": "A simple discord bot to do moderation stuff and few other function",
   "main": "index.js",
+  "codeName": "[ho hi!]",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect",
     "start": "node index.js",
     "dev": "nodemon start"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Asthriona/TheWallDiscordBot.git"
+    "url": "git+https://github.com/Asthriona/TheWallDiscordBot"
   },
   "keywords": [
-    "The",
-    "Wall",
     "Discord",
-    "bot"
+    "bot",
+    "Asthri",
+    "Asthriona",
+    "NodeJS",
+    "NPM"
   ],
   "author": "Asthriona",
-  "license": "ISC",
+  "license": "MPL-2.0",
   "bugs": {
-    "url": "https://github.com/Asthriona/TheWallDiscordBot/issues"
+    "url": "https://github.com/Asthriona/AsthriModBob/issues"
   },
-  "homepage": "https://github.com/Asthriona/TheWallDiscordBot#readme",
+  "homepage": "https://sh.nishikino.me/2dfdb",
   "dependencies": {
+    "ascii-table": "0.0.9",
     "axios": "^0.19.1",
-    "connect": "^3.7.0",
+    "beautify": "0.0.8",
+    "body-parser": "^1.19.0",
+    "canvas": "^2.6.0",
+    "common-tags": "^1.8.0",
     "discord.js": "^11.5.1",
     "dotenv": "^8.2.0",
-    "ffmpeg-binaries": "^4.0.0",
-    "log-timestamp": "^0.3.0",
-    "opusscript": "0.0.7",
-    "semver": "^6.3.0",
-    "serve-static": "^1.14.1",
-    "superagent": "^5.1.2",
-    "util": "^0.12.1",
-    "winston": "^3.2.1",
-    "xmlhttprequest": "^1.8.0",
-    "ytdl-core": "^0.29.7"
-  },
-  "snyk": true
+    "exphbs": "^1.2.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "fast-sort": "^2.0.1",
+    "follow-redirects": "^1.9.0",
+    "fs": "0.0.1-security",
+    "glob": "^7.1.6",
+    "has-symbols": "^1.0.1",
+    "mongodb": "^3.4.1",
+    "mongoose": "^5.8.11",
+    "ms": "^2.1.2",
+    "node-opus": "^0.3.3",
+    "nodegit": "^0.26.4",
+    "os-utils": "0.0.14",
+    "simple-youtube-api": "^5.2.1",
+    "superagent": "^5.1.0",
+    "youtube-dl": "^2.3.0",
+    "ytdl-core": "^1.0.5",
+    "ytdl-core-discord": "^1.0.3"
+  }
 }

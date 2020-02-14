@@ -1,7 +1,8 @@
 {
-    "token": "get it here -> https://discordapp.com/developers/applications/",
-    "prefix": "!",
-    "emote": "/"
-    "channelprod": "CHANNEL ID",
-    "channeldev": "CHANNEL ID"
+    "token": "Prod bot key",
+    "tokenDev": "dev bot key",
+    "prefix": "a!"
+    "devPrefix": ";",
+    "channelprod": "ChannelID",
+    "YtKey": "YOUTUBE API KEY"
 }
