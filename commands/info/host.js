@@ -17,7 +17,7 @@ module.exports = {
             //var ip = os.networkInterfaces(address)
           
 
-            var niketoi = "Intel(R) Atom(TM) CPU  C2350  @ 1.74GHz"
+            var niketoi = "Intel(R) Xeon(TM) Gold 6252 @ 3.7 GHz"
             
                   let  systemEmbed = new RichEmbed()
                   .setTitle("System Information")

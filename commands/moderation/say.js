@@ -1,7 +1,7 @@
 module.exports = {
     name: "say",
     category: "Moderation",
-    description: " ",
+    description: "Make to bot talk for you!",
     run: async (bot, message, args, RichEmbed) => {
         if(message.deletable) message.delete();
         if(args.length < 1) 

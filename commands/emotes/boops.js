@@ -1,7 +1,7 @@
 module.exports = {
     name: "boop",
     category: "emote",
-    description: " ",
+    description: "You booped someone!",
     run: async (bot, message, args) => {
         let eUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
         message.channel.send(`${message.author} boops ${eUser} nose!`);
