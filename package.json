@@ -6,7 +6,9 @@
   "codeName": "[ho hi!]",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon start"
+    "dev": "nodemon start",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -28,23 +30,23 @@
   "homepage": "https://sh.nishikino.me/2dfdb",
   "dependencies": {
     "ascii-table": "0.0.9",
-    "axios": "^0.19.1",
+    "axios": "^0.19.2",
     "beautify": "0.0.8",
     "body-parser": "^1.19.0",
-    "canvas": "^2.6.0",
+    "canvas": "^2.6.1",
     "common-tags": "^1.8.0",
-    "discord.js": "^11.5.1",
+    "discord.js": "^11.6.3",
     "dotenv": "^8.2.0",
     "exphbs": "^1.2.0",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
-    "fast-sort": "^2.0.1",
+    "fast-sort": "^2.1.1",
     "follow-redirects": "^1.9.0",
-    "fs": "0.0.1-security",
+    "fs": "0.0.2",
     "glob": "^7.1.6",
     "has-symbols": "^1.0.1",
     "mongodb": "^3.5.2",
-    "mongoose": "^5.8.11",
+    "mongoose": "^5.8.12",
     "ms": "^2.1.2",
     "node-opus": "^0.3.3",
     "nodegit": "^0.26.4",
@@ -53,6 +55,8 @@
     "superagent": "^5.1.0",
     "youtube-dl": "^2.3.0",
     "ytdl-core": "^1.0.5",
-    "ytdl-core-discord": "^1.0.3"
-  }
+    "ytdl-core-discord": "^1.0.3",
+    "snyk": "^1.316.1"
+  },
+  "snyk": true
 }

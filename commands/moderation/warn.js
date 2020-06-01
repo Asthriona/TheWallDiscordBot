@@ -12,7 +12,7 @@ var Users = require("../../model/xp")
 module.exports = {
     name: "warn",
     category: "moderation",
-    description: "Warn ppl whro break the law!",
+    description: "Warn ppl who break the law!",
     usage: "!warn <mention | id> [Raison]",
     run: async (bot, message, args) =>{
         if(!message.member.hasPermission("BAN_MEMBERS")){

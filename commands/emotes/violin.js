@@ -4,6 +4,7 @@ module.exports = {
     description: " ",
     run: async (bot, message, args) => {
         let eUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
-        message.channel.send(`The Wall plays the world's smallest violin for ${message.author}`);
+        if(!eUser) return message.channel.send(`${message.author} begin to play the world's smallest violin.`)
+        message.channel.send(`${message.author} plays the world's smallest violin for ${eUser}`);
     }
 }

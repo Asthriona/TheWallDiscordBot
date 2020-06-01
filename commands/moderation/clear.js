@@ -1,10 +1,7 @@
-
-
-
 module.exports = {
-    name: "say",
+    name: "clear",
     category: "Moderation",
-    description: " ",
+    description: "Bulk delete some messages.",
     run: async (bot, message, args, RichEmbed) => {
         if(cmd === 'clear'){
             if(message.deletable){

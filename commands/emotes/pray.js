@@ -3,6 +3,8 @@ module.exports = {
     category: "info",
     description: "Pray the wall to be protected.",
     run: async (bot, message, args) => {
-        message.channel.send("*-You pray to The Wall.-* I will protect you!");
+        let eUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+        if(!eUser) return message.channel.send("*-You pray to The Wall.-* I will protect you!");
+        message.channel.send(`${message.author} say a prayer for ${eUser}. \n The wall heard you ${message.author}.`)
     }
 }
