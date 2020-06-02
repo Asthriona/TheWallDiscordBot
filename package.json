@@ -49,7 +49,7 @@
     "mongoose": "^5.8.12",
     "ms": "^2.1.2",
     "node-opus": "^0.3.3",
-    "nodegit": "^0.26.4",
+    "nodegit": "^0.26.5",
     "os-utils": "0.0.14",
     "simple-youtube-api": "^5.2.1",
     "superagent": "^5.1.0",
