@@ -30,7 +30,7 @@
   "homepage": "https://sh.nishikino.me/2dfdb",
   "dependencies": {
     "ascii-table": "0.0.9",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "beautify": "0.0.8",
     "body-parser": "^1.19.0",
     "canvas": "^2.6.1",
